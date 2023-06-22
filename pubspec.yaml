@@ -35,7 +35,7 @@ dependencies:
   intl: ^0.17.0
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
-  dio: ^4.0.6
+  dio: ^5.1.1
   shared_preferences: ^2.0.15
   dropdown_search: ^5.0.5
   lottie: ^2.0.0
