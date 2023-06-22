@@ -1,6 +1,9 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:masmix/controller/cubits/home_cubit.dart';
+import 'package:masmix/controller/share/components/menu.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../controller/share/components/component.dart';
@@ -28,38 +31,37 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
     return Scaffold(
-      backgroundColor: const Color(0xff000236),
+      backgroundColor: defaultColorNavyBlue,
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white,),
-        title: const Text(
+        iconTheme:  IconThemeData(color: defaultColorWhite,),
+        title:  Text(
           'Package Images',
           style: TextStyle(
-            color: Colors.white,
+            color: defaultColorWhite,
           ),
         ),
         centerTitle: true,
         leading: Image.asset(
           'asset/images/logo-removebg.png',
         ),
-        backgroundColor: const Color(0xff000236),
+        backgroundColor: defaultColorNavyBlue,
         elevation: 0.0,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xff000236),
+        systemOverlayStyle:  SystemUiOverlayStyle(
+          statusBarColor: defaultColorNavyBlue,
           statusBarIconBrightness: Brightness.light,
         ),
       ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+      endDrawer: defaultDrawer(context: context),
       body: Center(
         child: Container(
           width: 300,
           height: 530,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            color: Colors.white,
+            color: defaultColorWhite,
             border: Border.all(
-              color: const Color(0xff000236),
+              color: defaultColorNavyBlue,
             ),
           ),
           child: Padding(
@@ -96,7 +98,7 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
                   function: () {
                     Navigator.of(context).pop();
                   },
-                  color: const Color(0xfff7921c),
+                  color: defaultColorOrange,
                 ),
               ],
             ),
@@ -109,9 +111,9 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
   Widget buildIndicator() =>
       AnimatedSmoothIndicator(
         onDotClicked: animateToSlide,
-        effect: const ExpandingDotsEffect(
+        effect: ExpandingDotsEffect(
           dotWidth: 15,
-          activeDotColor: const Color(0xfff7921c),
+          activeDotColor: defaultColorOrange,
         ),
         activeIndex: activeIndex,
         count: pathImages.length,

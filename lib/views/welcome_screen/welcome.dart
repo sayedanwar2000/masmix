@@ -20,11 +20,11 @@ class ShowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(username);
+    print(password);
     return BlocConsumer<LoginCubit, LoginStates>(
       builder: (context, state) {
         if (username.isEmpty || password.isEmpty) {
-          print(username);
-          print(password);
           return const WelcomeScreen();
         } else {
           var cubit = LoginCubit.get(context);

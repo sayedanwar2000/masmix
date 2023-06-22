@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/cubits/app_cubit.dart';
@@ -224,13 +225,30 @@ class FirstSignupScreen extends StatelessWidget {
                                 defaultButton(
                                   text: 'Register',
                                   function: () {
-                                    if (formKey.currentState!.validate() &&
-                                        signupCubit.checkbox) {
+                                    print(signupCubit.countryCode);
+                                    if (formKey.currentState!.validate()) {
                                       signupCubit.firstName = firstName;
                                       signupCubit.lastName = lastName;
                                       signupCubit.phone = phone;
                                       signupCubit.email = email;
-                                      navigateto(context, SecondSignupScreen());
+                                      if (!signupCubit.checkbox) {
+                                        final snackBar = SnackBar(
+                                          elevation: 0,
+                                          behavior: SnackBarBehavior.floating,
+                                          backgroundColor: Colors.transparent,
+                                          content: AwesomeSnackbarContent(
+                                            title: 'Error!',
+                                            message:
+                                            'You must agree to our terms!',
+                                            contentType: ContentType.failure,
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                          ..hideCurrentSnackBar()
+                                          ..showSnackBar(snackBar);
+                                      } else {
+                                        navigateto(context, SecondSignupScreen());
+                                      }
                                     }
                                   },
                                   color: const Color(0xfff7921c),

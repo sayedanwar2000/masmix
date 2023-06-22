@@ -15,6 +15,7 @@ class AppCubit extends Cubit<AppStates> {
   List<String> languageList = [];
   List<String> currencyList = [];
   List<String> city = [];
+  List<String>? getCity = [];
   var ipAddress;
   var currencyIdList = <int, String>{};
   var languageIdList = <int, String>{};
@@ -93,7 +94,7 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-  void getCountry(){
+  void getCountry() {
     emit(CountryLoadingState());
     if (countryList.isEmpty) {
       DioHelper.getData(
@@ -194,7 +195,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   getCountryValue(var value) {
-    var countryKey =countryIdList[value];
+    var countryKey = countryIdList[value];
     return countryKey;
   }
 
@@ -220,4 +221,15 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
+  void changeCity({var country}) {
+    if (country == null) {
+      int key = getCountryKey(country);
+      getCity = cityList[key];
+    } else {
+      getCity = city;
+      print('1111');
+      print(getCity);
+    }
+    emit(CityChangeState());
+  }
 }

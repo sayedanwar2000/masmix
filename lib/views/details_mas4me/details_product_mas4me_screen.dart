@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:masmix/controller/share/components/menu.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 
-class DetailsProductScreen extends StatelessWidget {
-  const DetailsProductScreen({Key? key}) : super(key: key);
+class DetailsProductMas4MeScreen extends StatelessWidget {
+  const DetailsProductMas4MeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var homeCubit = HomeCubit.get(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Details',
           style: TextStyle(
-            color: Colors.black,
+            color: defaultColorBlack,
           ),
         ),
         centerTitle: true,
       ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+      endDrawer: defaultDrawer(context: context),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -29,10 +30,10 @@ class DetailsProductScreen extends StatelessWidget {
                 width: 350,
                 child: Card(
                   elevation: 10,
-                  color: const Color(0xff000236),
+                  color: defaultColorNavyBlue,
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      color: Color(0xff000236),
+                    side: BorderSide(
+                      color: defaultColorNavyBlue,
                     ),
                     borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                   ),
@@ -47,7 +48,7 @@ class DetailsProductScreen extends StatelessWidget {
                         Container(
                           width: 2.0,
                           height: MediaQuery.of(context).size.height,
-                          color: Colors.white,
+                          color: defaultColorWhite,
                         ),
                         const SizedBox(
                           width: 20.0,
@@ -57,20 +58,21 @@ class DetailsProductScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Service ID :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -79,20 +81,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Service Name :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -101,20 +104,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Service Date :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -123,20 +127,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Request Date :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -145,20 +150,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'status :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -167,20 +173,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Height :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -189,20 +196,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Width :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -211,20 +219,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Length :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -233,20 +242,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Dimension Unit :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -255,20 +265,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Weight :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -277,20 +288,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Total Price :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -299,20 +311,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Weight Unit :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -321,20 +334,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Courier Name :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -343,20 +357,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Service Price :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -365,20 +380,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Currency :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -387,20 +403,21 @@ class DetailsProductScreen extends StatelessWidget {
                               height: 20.0,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Text(
                                   'Date :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: defaultColorWhite,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20.0,
                                 ),
                                 Text(
                                   'DHL',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: defaultColorWhite,
                                   ),
                                 ),
                               ],
@@ -424,7 +441,7 @@ class DetailsProductScreen extends StatelessWidget {
                   function: () {
                     Navigator.of(context).pop();
                   },
-                  color: const Color(0xff000236)),
+                  color: defaultColorNavyBlue),
             ],
           ),
         ),

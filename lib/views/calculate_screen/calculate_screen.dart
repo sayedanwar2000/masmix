@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/menu.dart';
 
 class CalculateScreen extends StatelessWidget {
   TextEditingController zipCode = TextEditingController();
@@ -42,13 +43,12 @@ class CalculateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calculator'),
         centerTitle: true,
       ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+      endDrawer: defaultDrawer(context: context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -132,7 +132,7 @@ class CalculateScreen extends StatelessWidget {
               const SizedBox(
                 height: 20.0,
               ),
-              defaultshipmentData(
+              defaultShipmentData(
                 weight: weight,
                 height: height,
                 length: length,

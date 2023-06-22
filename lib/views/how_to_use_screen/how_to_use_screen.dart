@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/menu.dart';
 import 'package:masmix/controller/share/function_share/functions.dart';
 
 class HowToUseScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class HowToUseScreen extends StatelessWidget {
         title: const Text('How To Use'),
         centerTitle: true,
       ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+      endDrawer: defaultDrawer(context: context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -49,7 +50,7 @@ class HowToUseScreen extends StatelessWidget {
                             text: 'Air Services',
                             function: () {
                               functionsShare.launchInBrowser(
-                                  urlpath: 'https://masmix.com/Air_Services');
+                                  urlPath: 'https://masmix.com/Air_Services');
                             },
                             color: const Color(0xff000236),
                           ),
@@ -80,7 +81,7 @@ class HowToUseScreen extends StatelessWidget {
                             text: 'Land Services',
                             function: () {
                               functionsShare.launchInBrowser(
-                                  urlpath: 'https://masmix.com/land_Services');
+                                  urlPath: 'https://masmix.com/land_Services');
                             },
                             color: const Color(0xff000236),
                           ),
@@ -118,7 +119,7 @@ class HowToUseScreen extends StatelessWidget {
                             text: 'Sea Services',
                             function: () {
                               functionsShare.launchInBrowser(
-                                  urlpath: 'https://masmix.com/sea_Services');
+                                  urlPath: 'https://masmix.com/sea_Services');
                             },
                             color: const Color(0xff000236),
                           ),
@@ -153,7 +154,7 @@ class HowToUseScreen extends StatelessWidget {
                             text: 'Easy2Ship Services',
                             function: () {
                               functionsShare.launchInBrowser(
-                                  urlpath:
+                                  urlPath:
                                       'https://masmix.com/consalidate_Services');
                             },
                             color: const Color(0xff000236),
@@ -192,7 +193,7 @@ class HowToUseScreen extends StatelessWidget {
                             text: 'Mas4me Services',
                             function: () {
                               functionsShare.launchInBrowser(
-                                  urlpath:
+                                  urlPath:
                                       'https://masmix.com/mas4me_Services',
                               );
                             },
@@ -227,7 +228,7 @@ class HowToUseScreen extends StatelessWidget {
                             text: 'Storage Services',
                             function: () {
                               functionsShare.launchInBrowser(
-                                  urlpath:
+                                  urlPath:
                                       'https://masmix.com/wharehouse_Services');
                             },
                             color: const Color(0xff000236),

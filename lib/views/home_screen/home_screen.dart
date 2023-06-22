@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
-import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/menu.dart';
 import 'package:masmix/controller/states/home_states.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
               statusBarIconBrightness: Brightness.light,
             ),
           ),
-          endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+          endDrawer: defaultDrawer(context: context),
           bottomNavigationBar: CurvedNavigationBar(
             key: _bottomNavigationKey,
             index: homeCubit.page,

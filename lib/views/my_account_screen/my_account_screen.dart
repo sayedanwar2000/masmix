@@ -8,6 +8,7 @@ import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/cubits/login_cubit.dart';
 import 'package:masmix/controller/cubits/my_account_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/menu.dart';
 import 'package:masmix/controller/states/my_account_state.dart';
 
 class MyAccountScreen extends StatelessWidget {
@@ -114,7 +115,7 @@ class MyAccountScreen extends StatelessWidget {
             title: const Text('My Account'),
             centerTitle: true,
           ),
-          endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+          endDrawer: defaultDrawer(context: context),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(

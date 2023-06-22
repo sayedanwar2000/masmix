@@ -1,12 +1,38 @@
+
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masmix/controller/cubits/service_cubit.dart';
+import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/states/service_states.dart';
+import 'package:masmix/views/storage_screen/storage_screen.dart';
 
 class AweseomSnackBarExample extends StatelessWidget {
   const AweseomSnackBarExample({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var cubit = ServiceCubit.get(context);
+    return BlocConsumer<ServiceCubit, ServiceStates>(
+      listener: (BuildContext context, state) {
+        print(state);
+        if(state is ServiceCountrySuccessState) {
+          navigateto(context, StorageScreen());
+        }
+      },
+      builder: (BuildContext context, Object? state) {
+        return Scaffold(
+          body: Center(
+            child: defaultButton(function: (){
+              cubit.getCountryAndCity(serviceID: 4);
+
+            }, color: Colors.black),
+          ),
+        );
+      },
+    );
+
+    /*Scaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -64,6 +90,6 @@ class AweseomSnackBarExample extends StatelessWidget {
           ],
         ),
       ),
-    );
+    )*/
   }
 }

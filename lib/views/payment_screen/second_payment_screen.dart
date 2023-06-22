@@ -273,7 +273,7 @@ class SecondPaymentScreen extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         functionsShare.launchInBrowser(
-                                          urlpath: 'https://link.co/terms',
+                                          urlPath: 'https://link.co/terms',
                                         );
                                       },
                                       child: const Text(
@@ -291,7 +291,7 @@ class SecondPaymentScreen extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         functionsShare.launchInBrowser(
-                                          urlpath: 'https://link.co/privacy',
+                                          urlPath: 'https://link.co/privacy',
                                         );
                                       },
                                       child: const Text(
@@ -443,7 +443,7 @@ class SecondPaymentScreen extends StatelessWidget {
                                             InkWell(
                                               onTap: (){
                                                 functionsShare.launchInBrowser(
-                                                  urlpath: 'https://link.co/privacy',
+                                                  urlPath: 'https://link.co/privacy',
                                                 );
                                               },
                                               child: Row(

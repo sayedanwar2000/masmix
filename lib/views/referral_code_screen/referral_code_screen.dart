@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/menu.dart';
 import 'package:masmix/views/referral_code_screen/view_people_screen.dart';
 
 class ReferralCodeScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class ReferralCodeScreen extends StatelessWidget {
         title: const Text('Referral Code'),
         centerTitle: true,
       ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+      endDrawer: defaultDrawer(context: context),
       body: Padding(
         padding: const EdgeInsetsDirectional.only(
           start: 10.0,

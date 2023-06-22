@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:flag/flag.dart';
+import 'package:masmix/controller/share/components/menu.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 
 class EASY2SHIPSettingsScreen extends StatelessWidget {
   bool value = true;
@@ -12,13 +14,12 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         title: const Text('EASY2SHIP Settings'),
         centerTitle: true,
       ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+      endDrawer: defaultDrawer(context: context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -30,17 +31,18 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       child: Column(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.present_to_all,
                             size: 150,
-                            color: Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                           const SizedBox(
                             height: 20.0,
@@ -48,11 +50,11 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                           Row(
                             children: [
                               Switch(
-                                  value: value,
-                                  activeColor: const Color(0xff000236),
-                                  onChanged: (va){
-                                    value = va;
-                                  },
+                                value: value,
+                                activeColor: defaultColorNavyBlue,
+                                onChanged: (va) {
+                                  value = va;
+                                },
                               ),
                               const SizedBox(
                                 width: 100,
@@ -74,17 +76,18 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       child: Column(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.hide_image,
                             size: 150,
-                            color: Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                           const SizedBox(
                             height: 20.0,
@@ -92,11 +95,11 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                           Row(
                             children: [
                               Switch(
-                                  value: value,
-                                  activeColor: const Color(0xff000236),
-                                  onChanged: (va){
-                                    value = va;
-                                  },
+                                value: value,
+                                activeColor: defaultColorNavyBlue,
+                                onChanged: (va) {
+                                  value = va;
+                                },
                               ),
                               const Text('No images'),
                               const SizedBox(
@@ -122,17 +125,18 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       child: Column(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.notifications,
                             size: 150,
-                            color: Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                           const SizedBox(
                             height: 20.0,
@@ -141,8 +145,8 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                             children: [
                               Switch(
                                 value: value,
-                                activeColor: const Color(0xff000236),
-                                onChanged: (va){
+                                activeColor: defaultColorNavyBlue,
+                                onChanged: (va) {
                                   value = va;
                                 },
                               ),
@@ -166,17 +170,18 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       child: Column(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.account_balance_wallet,
                             size: 150,
-                            color: Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                           const SizedBox(
                             height: 20.0,
@@ -185,8 +190,8 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                             children: [
                               Switch(
                                 value: value,
-                                activeColor: const Color(0xff000236),
-                                onChanged: (va){
+                                activeColor: defaultColorNavyBlue,
+                                onChanged: (va) {
                                   value = va;
                                 },
                               ),
@@ -218,10 +223,11 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -231,7 +237,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Flag.fromCode(
-                                    FlagsCode.US,
+                                  FlagsCode.US,
                                   height: 30.0,
                                   width: 30.0,
                                 ),
@@ -239,7 +245,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                                   width: 10.0,
                                 ),
                                 const Text(
-                                    'MY US SHIPPING ADDRESS',
+                                  'MY US SHIPPING ADDRESS',
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -250,10 +256,8 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                             Row(
                               children: const [
                                 Text(
-                                    'Address :',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold
-                                  ),
+                                  'Address :',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   width: 10.0,
@@ -280,10 +284,11 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -293,7 +298,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Flag.fromCode(
-                                    FlagsCode.SA,
+                                  FlagsCode.SA,
                                   height: 30.0,
                                   width: 30.0,
                                 ),
@@ -301,7 +306,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                                   width: 10.0,
                                 ),
                                 const Text(
-                                    'MY KSA SHIPPING ADDRESS',
+                                  'MY KSA SHIPPING ADDRESS',
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -312,10 +317,8 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                             Row(
                               children: const [
                                 Text(
-                                    'Address :',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold
-                                  ),
+                                  'Address :',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   width: 10.0,
@@ -336,9 +339,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                               children: const [
                                 Text(
                                   'Address :',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold
-                                  ),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   width: 10.0,
@@ -359,9 +360,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                               children: const [
                                 Text(
                                   'Address :',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold
-                                  ),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   width: 10.0,
@@ -388,10 +387,11 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -401,7 +401,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Flag.fromCode(
-                                    FlagsCode.EG,
+                                  FlagsCode.EG,
                                   height: 30.0,
                                   width: 30.0,
                                 ),
@@ -409,7 +409,7 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                                   width: 10.0,
                                 ),
                                 const Text(
-                                    'MY ADDRESS',
+                                  'MY ADDRESS',
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -484,8 +484,8 @@ class EASY2SHIPSettingsScreen extends StatelessWidget {
                   ),
                   defaultButton(
                     text: 'Update',
-                    function: (){},
-                    color: const Color(0xff000236),
+                    function: () {},
+                    color: defaultColorNavyBlue,
                   ),
                 ],
               ),

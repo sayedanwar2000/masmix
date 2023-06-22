@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         const Duration(seconds: 3),
             (){
-          navigateAndFinish(context, const WelcomeScreen());
+          navigateAndFinish(context, ShowScreen());
         }
     );
   }

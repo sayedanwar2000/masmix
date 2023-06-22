@@ -3,14 +3,14 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:masmix/controller/cubits/app_cubit.dart';
 import 'package:masmix/controller/cubits/login_cubit.dart';
-import 'package:masmix/controller/cubits/my_account_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/network/local/cache_helper/cache.dart';
 import 'package:masmix/controller/states/login_states.dart';
 import 'package:masmix/views/sign_up_screen/first_sign_up.dart';
 import 'package:masmix/views/home_screen/home_screen.dart';
+
+import '../../controller/share/style/colors.dart';
 
 class SigninScreen extends StatelessWidget {
   TextEditingController username = TextEditingController();
@@ -21,25 +21,26 @@ class SigninScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appCubit = AppCubit.get(context);
     var loginCubit = LoginCubit.get(context);
-    var myAccountCubit = MyAccountCubit.get(context);
 
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {
-        if(state is LoginSuccessState) {
-          CacheHelper.saveData(key: 'username', value: username.text).then((value){
-            print(value);
-            if(value){
-              CacheHelper.saveData(key: 'password', value: password.text).then((value) {
-                print(value);
-                if(value){
-                  navigateAndFinish(context, HomeScreen());
-                }
-              });
-            }
+        if (state is LoginSuccessState) {
+          CacheHelper.saveData(key: 'userID', value: loginCubit.loginModel.id)
+              .then((value) {
+            CacheHelper.saveData(key: 'username', value: username.text)
+                .then((value) {
+              if (value) {
+                CacheHelper.saveData(key: 'password', value: password.text)
+                    .then((value) {
+                  if (value) {
+                    navigateAndFinish(context, HomeScreen());
+                  }
+                });
+              }
+            });
           });
-        }else if (state is LoginErrorState){
+        } else if (state is LoginErrorState) {
           final snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
@@ -55,8 +56,7 @@ class SigninScreen extends StatelessWidget {
             ..showSnackBar(snackBar);
         }
       },
-      builder: (context,state){
-
+      builder: (context, state) {
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.only(
@@ -69,8 +69,8 @@ class SigninScreen extends StatelessWidget {
                   child: Card(
                     elevation: 10,
                     shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: Color(0xfff7921c),
+                      side: BorderSide(
+                        color: defaultColorOrange,
                       ),
                       borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                     ),
@@ -78,14 +78,14 @@ class SigninScreen extends StatelessWidget {
                       children: [
                         Container(
                           width: double.infinity,
-                          decoration: const BoxDecoration(
-                              color: Color(0xfff7921c),
-                              borderRadius: BorderRadius.only(
+                          decoration: BoxDecoration(
+                              color: defaultColorOrange,
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20.0),
                                 topRight: Radius.circular(20.0),
                               )),
-                          child: const Padding(
-                            padding: EdgeInsets.only(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
                               top: 20,
                               bottom: 20,
                             ),
@@ -93,7 +93,7 @@ class SigninScreen extends StatelessWidget {
                               child: Text(
                                 'Welcome back',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: defaultColorWhite,
                                   fontSize: 30.0,
                                 ),
                               ),
@@ -138,7 +138,7 @@ class SigninScreen extends StatelessWidget {
                                   prefix: Icons.lock,
                                   isPassword: loginCubit.isPassword,
                                   suffix: loginCubit.suffix,
-                                  suffixPressed: (){
+                                  suffixPressed: () {
                                     loginCubit.changePasswordVisibility();
                                   },
                                 ),
@@ -146,18 +146,24 @@ class SigninScreen extends StatelessWidget {
                                   function: () {},
                                   text: 'Forgot password?',
                                 ),
-                                state is! LoginLoadingState ? defaultButton(
-                                  text: 'Log in',
-                                  function: () {
-                                    if(formKey.currentState!.validate()) {
-                                      loginCubit.userLogin(
-                                          email: username.text,
-                                          password: password.text
-                                      );
-                                    }
-                                  },
-                                  color: const Color(0xfff7921c),
-                                ) : const Center(child: CircularProgressIndicator(color: Color(0xfff7921c),),),
+                                state is! LoginLoadingState
+                                    ? defaultButton(
+                                        text: 'Log in',
+                                        function: () {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            loginCubit.userLogin(
+                                                email: username.text,
+                                                password: password.text);
+                                          }
+                                        },
+                                        color: defaultColorOrange,
+                                      )
+                                    : Center(
+                                        child: CircularProgressIndicator(
+                                          color: defaultColorOrange,
+                                        ),
+                                      ),
                                 const SizedBox(
                                   height: 20.0,
                                 ),
@@ -215,7 +221,8 @@ class SigninScreen extends StatelessWidget {
                                     const Text('Don\'t have an account?'),
                                     defaultTextButton(
                                       function: () {
-                                        navigateto(context, FirstSignupScreen());
+                                        navigateto(
+                                            context, FirstSignupScreen());
                                       },
                                       text: 'Sign Up',
                                     ),

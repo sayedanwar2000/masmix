@@ -4,25 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/share/network/endpointer.dart';
 import 'package:masmix/controller/share/network/remote/dio_helper.dart';
 import 'package:masmix/controller/states/storage_states.dart';
-enum SingingCharacter { Parcel, OpenSpace, Documents, Pallet }
+// enum SingingCharacter { Parcel, OpenSpace, Documents, Pallet }
 
 class StorageCubit extends Cubit<StorageStates> {
   StorageCubit() : super(StorageInitialState());
 
   static StorageCubit get(context) => BlocProvider.of(context);
 
-  late SingingCharacter? character = SingingCharacter.Parcel;
+  late String? character = "";
   bool checkbox = false;
   dynamic countryKey;
   dynamic country;
-  dynamic accountTypeKey;
-  dynamic accountType;
-  dynamic languageKey;
-  dynamic language;
   dynamic cityKey;
   dynamic city;
-  dynamic currencyKey;
-  dynamic currency;
+  dynamic size;
+  List<String> radioButtonList = [];
+  var radioButtonIdList = <int, String>{};
+  List<String> sizeList = [];
+  var sizeIdList = <int, String>{};
+
 
   void changeCheckBox(value) {
     checkbox = value;
@@ -36,7 +36,12 @@ class StorageCubit extends Cubit<StorageStates> {
 
   void changeCity(value) {
     city = value;
-    emit(StorageChangeCountryState());
+    emit(StorageChangeCityState());
+  }
+
+  void changeSize(value) {
+    size = value;
+    emit(StorageChangeSizeState());
   }
 
   void changeCharacter(value) {
@@ -44,8 +49,77 @@ class StorageCubit extends Cubit<StorageStates> {
     emit(StorageChangeCharacterState());
   }
 
+  void getRadioButton({
+    required fromCountryID,
+    required toCityID,
+  }) {
+    radioButtonList = [];
+    radioButtonIdList = <int, String>{};
+    emit(StorageRadioButtonLoadingState());
+    DioHelper.postData(
+      url: StorageRadioButton,
+      data: {
+        "from_country_id": fromCountryID,
+        "to_city_id": toCityID,
+      },
+    ).then((value) async {
+      var list = value.data;
+      for (var item in list) {
+        radioButtonList.add(item['service_type_size_name']);
+        radioButtonIdList[item['service_type_size_id'].toInt()] =
+        item['service_type_size_name'];
+      }
+      emit(StorageRadioButtonSuccessState());
+    }).catchError((error) {
+      emit(StorageRadioButtonErrorState(error.toString()));
+    });
+  }
+
+  int getRadioKey(var value) {
+    var radioKey = radioButtonIdList.keys
+        .firstWhere((k) => radioButtonIdList[k] == value, orElse: () => 1);
+    return radioKey;
+  }
+
+  void getSize({
+    required fromCountryID,
+    required serviceSizeTypeId,
+    required storageFromDate,
+    required storageToDate,
+    required fromCityID,
+  }) {
+    sizeList = [];
+    sizeIdList = <int, String>{};
+    emit(StorageSizeLoadingState());
+    DioHelper.postData(
+      url: StorageSize,
+      data: {
+        "from_country_id": fromCountryID,
+        "service_size_type_id": serviceSizeTypeId,
+        "storage_from_date":storageFromDate,
+        "storage_to_date":storageToDate,
+        "from_city_id":fromCityID
+      },
+    ).then((value) async {
+      var list = value.data;
+      for (var item in list) {
+        sizeList.add(item['wharehouse_size_desc']);
+        sizeIdList[item['id'].toInt()] =
+        item['wharehouse_size_desc'];
+      }
+      emit(StorageSizeSuccessState());
+    }).catchError((error) {
+      emit(StorageSizeErrorState(error.toString()));
+    });
+  }
+
+  int getSizeKey(var value) {
+    var sizeKey = sizeIdList.keys
+        .firstWhere((k) => sizeIdList[k] == value, orElse: () => 1);
+    return sizeKey;
+  }
+
   void submitStorageQuote({
-    required storage_country,
     required storage_country_id,
     required storage_country_name,
     required storage_city_id,
@@ -67,7 +141,7 @@ class StorageCubit extends Cubit<StorageStates> {
     DioHelper.postData(
       url: Storage_quote,
       data: {
-        "storage_country": storage_country,
+        "storage_country": 0,
         "storage_country_id": storage_country_id,
         "storage_country_name": storage_country_name,
         "storage_city_id": storage_city_id,
@@ -89,11 +163,9 @@ class StorageCubit extends Cubit<StorageStates> {
       if (value.data.runtimeType == String) {
         emit(StorageErrorState(value.data));
       } else {
-        //loginModel = UserModel.fromJson(value.data);
         emit(StorageSuccessState());
       }
     }).catchError((error) {
-      print(error.toString());
       emit(StorageErrorState(error.toString()));
     });
   }

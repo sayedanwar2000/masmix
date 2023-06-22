@@ -5,13 +5,13 @@ import 'package:url_launcher/url_launcher.dart';
 class functionsShare {
   static Future<void> launchInBrowser({
     int? launchTo,
-    String? urlpath,
+    String? urlPath,
   }) async {
     final Uri privacyPolicy = Uri.parse('https://masmix.com/privacy-policy');
     final Uri termsConditions =
         Uri.parse('https://masmix.com/terms-conditions');
     final Uri FAQ = Uri.parse('https://masmix.com/faq');
-    final Uri path = Uri.parse('$urlpath');
+    final Uri path = Uri.parse('$urlPath');
     Uri url;
     if (launchTo == 1) {
       url = privacyPolicy;

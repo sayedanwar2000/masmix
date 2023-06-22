@@ -158,7 +158,9 @@ class SecondSignupScreen extends StatelessWidget {
                                 label: 'Country Code',
                                 widget: defaultDropdownSearch(
                                   items: appCubit.countryCodeList,
-                                  onChang: print,
+                                  onChang: (value) {
+                                    signupCubit.changeCountryCode(value);
+                                  },
                                   isSearch: true,
                                   selected: signupCubit.countryCode,
                                 ),
@@ -291,6 +293,8 @@ class SecondSignupScreen extends StatelessWidget {
                               text: 'Next',
                               widt: 100,
                               function: () {
+                                print(signupCubit.accountType);
+                                print(signupCubit.language);
                                 if (formKey.currentState!.validate()) {
                                   signupCubit.password = password;
                                   signupCubit.confirmPassword = confirmPassword;
@@ -337,6 +341,7 @@ class SecondSignupScreen extends StatelessWidget {
                                     countryKey = appCubit.getCountryKey(value);
                                   },
                                   isSearch: true,
+                                  selected: signupCubit.country,
                                 ),
                               ),
                             ),
@@ -369,6 +374,7 @@ class SecondSignupScreen extends StatelessWidget {
                                     cityKey = appCubit.getCityKey(value);
                                   },
                                   isSearch: true,
+                                  selected: signupCubit.city,
                                 ),
                               ),
                             ),

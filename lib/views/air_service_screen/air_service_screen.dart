@@ -1,11 +1,17 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:masmix/controller/cubits/air_cubit.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
+import 'package:masmix/controller/cubits/service_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/menu.dart';
+import 'package:masmix/controller/share/components/radio_button.dart';
+import 'package:masmix/controller/share/style/colors.dart';
+import 'package:masmix/controller/states/air_states.dart';
 import 'package:masmix/views/pending_screen/pendingbookingscreen.dart';
-import 'package:masmix/views/storage_screen/storage_screen.dart';
 
 class AirServiceScreen extends StatelessWidget {
   TextEditingController serviceDate = TextEditingController();
@@ -25,7 +31,7 @@ class AirServiceScreen extends StatelessWidget {
   TextEditingController width = TextEditingController();
   TextEditingController hsCode = TextEditingController();
   TextEditingController delcaredValue = TextEditingController();
-  //SingingCharacter? _character = SingingCharacter.Parcel;
+  int ind = 0;
   bool checkbox = false;
   var countryList = [
     'Ivory Coast',
@@ -104,738 +110,377 @@ class AirServiceScreen extends StatelessWidget {
     'Item 71',
   ];
 
-
   AirServiceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Air Service'),
-        centerTitle: true,
-      ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: const [
-                  Icon(
-                    Icons.location_on,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    'Geo Data',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: const Color(0xff000236),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      defaultField(
-                        label: 'Service Date',
-                        widget: defaultTextFormField(
-                          controll: serviceDate,
-                          type: TextInputType.datetime,
-                          ontap: () {
-                            showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime.parse('2024-01-01'),
-                            ).then((value) {
-                              serviceDate.text =
-                                  DateFormat.yMMMd().format(value!);
-                            });
-                          },
-                          validat: (value) {
-                            if (value!.isEmpty) {
-                              return 'Date must be not empty';
-                            }
-                            return null;
-                          },
-                          prefix: Icons.calendar_today,
-                        ),
+    var servicesCubit = ServiceCubit.get(context);
+    var airCubit = AirCubit.get(context);
+    return BlocConsumer<AirCubit, AirStates>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Air Service'),
+            centerTitle: true,
+          ),
+          endDrawer: defaultDrawer(context: context),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.location_on,
                       ),
-                      const SizedBox(
-                        height: 10.0,
+                      SizedBox(
+                        width: 10.0,
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: defaultField(
-                              label: 'Origin Country :',
-                              widget: defaultDropdownSearch(
-                                  items: countryList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select Country'),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            child: defaultField(
-                              label: 'Origin City :',
-                              widget: defaultDropdownSearch(
-                                  items: cityList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select City'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: defaultField(
-                              label: 'Origin Zip code :',
-                              widget: defaultTextFormField(
-                                controll: zipCodeO,
-                                type: TextInputType.number,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            child: defaultField(
-                              label: 'Origin AirPort/Port :',
-                              widget: defaultDropdownSearch(
-                                  items: airPortList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select Port'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: defaultField(
-                              label: 'Destination Country :',
-                              widget: defaultDropdownSearch(
-                                  items: countryList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select Country'),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            child: defaultField(
-                              label: 'Destination City :',
-                              widget: defaultDropdownSearch(
-                                  items: cityList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select City'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: defaultField(
-                              label: 'Destination Zip code :',
-                              widget: defaultTextFormField(
-                                controll: zipCodeO,
-                                type: TextInputType.number,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            child: defaultField(
-                              label: 'Destination AirPort :',
-                              widget: defaultDropdownSearch(
-                                  items: airPortList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select Port'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: const [
-                  Icon(
-                    Icons.flight,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    'Shipment Type',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: const Color(0xff000236),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10.0,
-                    right: 10.0,
-                    top: 20.0,
-                    bottom: 20.0,
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: const [
-                          /*Radio<SingingCharacter>(
-                            value: SingingCharacter.Parcel,
-                            groupValue: _character,
-                            onChanged: (SingingCharacter? value) {
-                              _character = value;
-                            },
-                          ),*/
-                          Text('Parcel'),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          right: 10.0,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            defaultField(
-                              label: 'Number of pieces',
-                              widget: defaultTextFormField(
-                                controll: numberofpieces,
-                                type: TextInputType.number,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            defaultField(
-                              label: 'Description of goods:',
-                              widget: defaultTextFormField(
-                                controll: descriptionofgoods,
-                                type: TextInputType.number,
-                                maxline: 4,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        'Geo Data',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: const [
-                  Icon(
-                    Icons.info,
+                  const SizedBox(
+                    height: 20.0,
                   ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    'Service Data',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: const Color(0xff000236),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10.0,
-                    right: 10.0,
-                    top: 20.0,
-                    bottom: 20.0,
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          right: 10.0,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: const [
-                                Icon(
-                                  Icons.location_on,
-                                ),
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                Text(
-                                  'Origin',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            myDivider(),
-                          ],
-                        ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: defaultColorNavyBlue,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
                         children: [
-                          Checkbox(
-                              value: checkbox,
-                              onChanged: (value) {
-                                checkbox = value!;
-                              }),
-                          const Text('Pick-UP'),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          right: 10.0,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            defaultField(
-                              label: 'Pick-up Date',
-                              widget: defaultTextFormField(
-                                controll: pickupDate,
-                                type: TextInputType.datetime,
-                                ontap: () {
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime.parse('2024-01-01'),
-                                  ).then((value) {
-                                    serviceDate.text =
-                                        DateFormat.yMMMd().format(value!);
-                                  });
-                                },
-                                validat: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Date must be not empty';
-                                  }
-                                  return null;
-                                },
-                                prefix: Icons.calendar_today,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            defaultField(
-                              label: 'Pick-up City :',
-                              widget: defaultDropdownSearch(
-                                  items: cityList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select City'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                              value: checkbox,
-                              onChanged: (value) {
-                                checkbox = value!;
-                              }),
-                          const Text('Use your Address'),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          right: 10.0,
-                        ),
-                        child: defaultField(
-                          label: 'Address',
-                          widget: defaultTextFormField(
-                              controll: address, type: TextInputType.text),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          right: 10.0,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: const [
-                                Icon(
-                                  Icons.location_on,
-                                ),
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                Text(
-                                  'Destination',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            myDivider(),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          right: 10.0,
-                          top: 10,
-                        ),
-                        child: Row(
-                          children: const [
-                            Icon(
-                              Icons.check_box,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text(
-                              'Air Port',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                              value: checkbox,
-                              onChanged: (value) {
-                                checkbox = value!;
-                              }),
-                          const Text('Delivery'),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          right: 10.0,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            defaultField(
-                              label: 'Delivery Date',
-                              widget: defaultTextFormField(
-                                controll: pickupDate,
-                                type: TextInputType.datetime,
-                                ontap: () {
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime.parse('2024-01-01'),
-                                  ).then((value) {
-                                    serviceDate.text =
-                                        DateFormat.yMMMd().format(value!);
-                                  });
-                                },
-                                validat: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Date must be not empty';
-                                  }
-                                  return null;
-                                },
-                                prefix: Icons.calendar_today,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            defaultField(
-                              label: 'Delivery City :',
-                              widget: defaultDropdownSearch(
-                                  items: cityList,
-                                  isSearch: true,
-                                  onChang: print, selected: 'Select City'),
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            defaultField(
-                              label: 'Delivery Address',
-                              widget: defaultTextFormField(
-                                  controll: deliveryAddress,
-                                  type: TextInputType.text),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: const [
-                  Icon(
-                    Icons.date_range,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    'Shipment Data',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              defaultshipmentData(
-                weight: weight,
-                height: height,
-                length: length,
-                width: width,
-                unit1: unit1,
-                unit2: unit2,
-                wid: Column(
-                  children: [
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: defaultTextFormField(
-                            label: 'HS Code',
-                            controll: hsCode,
-                            type: TextInputType.number,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: defaultTextFormField(
-                            label: 'Delcared Value',
-                            controll: delcaredValue,
-                            type: TextInputType.number,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: const [
-                  Icon(
-                    Icons.add,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    'Additional Services',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: const Color(0xff000236),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                              value: checkbox,
-                              onChanged: (value) {
-                                checkbox = value!;
-                              }),
-                          const Text('I Need Storage Service'),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 10.0,
-                              right: 10.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: defaultTextFormField(
-                                    controll: fromDate,
-                                    type: TextInputType.datetime,
-                                    ontap: () {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime.parse('2024-01-01'),
-                                      ).then((value) {
-                                        fromDate.text =
-                                            DateFormat.yMMMd().format(value!);
-                                      });
-                                    },
-                                    validat: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Date must be not empty';
-                                      }
-                                      return null;
-                                    },
-                                    label: 'From Date',
-                                    prefix: Icons.calendar_today,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                Expanded(
-                                  child: defaultTextFormField(
-                                    controll: toDate,
-                                    type: TextInputType.datetime,
-                                    ontap: () {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime.parse('2024-01-01'),
-                                      ).then((value) {
-                                        toDate.text =
-                                            DateFormat.yMMMd().format(value!);
-                                      });
-                                    },
-                                    validat: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Date must be not empty';
-                                      }
-                                      return null;
-                                    },
-                                    label: 'To Date',
-                                    prefix: Icons.calendar_today,
-                                  ),
-                                ),
-                              ],
+                          defaultField(
+                            label: 'Service Date',
+                            widget: defaultTextFormField(
+                              controll: serviceDate,
+                              type: TextInputType.datetime,
+                              ontap: () {
+                                showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime.parse('2024-01-01'),
+                                ).then((value) {
+                                  serviceDate.text =
+                                      DateFormat.yMMMd().format(value!);
+                                });
+                              },
+                              validat: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Date must be not empty';
+                                }
+                                return null;
+                              },
+                              prefix: Icons.calendar_today,
                             ),
                           ),
                           const SizedBox(
                             height: 10.0,
                           ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Origin Country :',
+                                  widget: defaultDropdownSearch(
+                                    items: servicesCubit.countryList,
+                                    isSearch: true,
+                                    onChang: (value) {
+                                      servicesCubit.changeCity(value);
+                                      airCubit.changeCountry(value);
+                                      servicesCubit.getAirPortOrPort(
+                                        fromCountryID:
+                                            servicesCubit.getCountryKey(value),
+                                        portType: 2,
+                                      );
+                                    },
+                                    selected: 'Select Country',
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Origin City :',
+                                  widget: defaultDropdownSearch(
+                                    items: servicesCubit.city,
+                                    isSearch: true,
+                                    onChang: (value) {
+                                      airCubit.changeCity(value);
+                                    },
+                                    selected: 'Select City',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Origin Zip code :',
+                                  widget: defaultTextFormField(
+                                    controll: zipCodeO,
+                                    type: TextInputType.number,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Origin AirPort :',
+                                  widget: defaultDropdownSearch(
+                                    items: servicesCubit.airPort_PortList,
+                                    isSearch: true,
+                                    onChang: (String? value) {
+                                      airCubit.changeAirPort(value);
+                                    },
+                                    selected: 'Select Port',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Destination Country :',
+                                  widget: defaultDropdownSearch(
+                                      items: countryList,
+                                      isSearch: true,
+                                      onChang: print,
+                                      selected: 'Select Country'),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Destination City :',
+                                  widget: defaultDropdownSearch(
+                                      items: cityList,
+                                      isSearch: true,
+                                      onChang: print,
+                                      selected: 'Select City'),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Destination Zip code :',
+                                  widget: defaultTextFormField(
+                                    controll: zipCodeO,
+                                    type: TextInputType.number,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: defaultField(
+                                  label: 'Destination AirPort :',
+                                  widget: defaultDropdownSearch(
+                                      items: airPortList,
+                                      isSearch: true,
+                                      onChang: print,
+                                      selected: 'Select Port'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.flight,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        'Shipment Type',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: defaultColorNavyBlue,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10.0,
+                        right: 10.0,
+                        top: 20.0,
+                        bottom: 20.0,
+                      ),
+                      child: Column(
+                        children: [
+                          if (airCubit.radioButtonList.isNotEmpty)
+                            ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                ind += 2;
+                                return radioButton(
+                                  index: ind,
+                                  Cubit: airCubit,
+                                  onChanged: (String? value) {
+                                    airCubit.changeCharacter(value);
+                                  },
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 0,
+                              ),
+                              itemCount: airCubit.radioButtonList.length == 1
+                                  ? airCubit.radioButtonList.length
+                                  : (airCubit.radioButtonList.length) ~/ 2,
+                            ),
                           Padding(
                             padding: const EdgeInsets.only(
                               left: 10.0,
                               right: 10.0,
                             ),
-                            child: defaultField(
-                              label: 'Size',
-                              widget: defaultDropdownSearch(
-                                items: sizeList,
-                                onChang: print,
-                                isSearch: true, selected: 'Select Size',
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                defaultField(
+                                  label: 'Number of pieces',
+                                  widget: defaultTextFormField(
+                                    controll: numberofpieces,
+                                    type: TextInputType.number,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                defaultField(
+                                  label: 'Description of goods:',
+                                  widget: defaultTextFormField(
+                                    controll: descriptionofgoods,
+                                    type: TextInputType.number,
+                                    maxline: 4,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.info,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        'Service Data',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: defaultColorNavyBlue,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10.0,
+                        right: 10.0,
+                        top: 20.0,
+                        bottom: 20.0,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 10.0,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.location_on,
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Text(
+                                      'Origin',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                myDivider(),
+                              ],
                             ),
                           ),
                           Row(
@@ -846,9 +491,7 @@ class AirServiceScreen extends StatelessWidget {
                                   onChanged: (value) {
                                     checkbox = value!;
                                   }),
-                              const Text(
-                                'Another',
-                              ),
+                              const Text('Pick-UP'),
                             ],
                           ),
                           Padding(
@@ -859,44 +502,450 @@ class AirServiceScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Description'),
+                                defaultField(
+                                  label: 'Pick-up Date',
+                                  widget: defaultTextFormField(
+                                    controll: pickupDate,
+                                    type: TextInputType.datetime,
+                                    ontap: () {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime.parse('2024-01-01'),
+                                      ).then((value) {
+                                        serviceDate.text =
+                                            DateFormat.yMMMd().format(value!);
+                                      });
+                                    },
+                                    validat: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Date must be not empty';
+                                      }
+                                      return null;
+                                    },
+                                    prefix: Icons.calendar_today,
+                                  ),
+                                ),
                                 const SizedBox(
                                   height: 10.0,
                                 ),
-                                defaultTextFormField(
-                                  controll: description,
-                                  type: TextInputType.text,
-                                  maxline: 5,
+                                defaultField(
+                                  label: 'Pick-up City :',
+                                  widget: defaultDropdownSearch(
+                                      items: cityList,
+                                      isSearch: true,
+                                      onChang: print,
+                                      selected: 'Select City'),
                                 ),
                               ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Checkbox(
+                                  value: checkbox,
+                                  onChanged: (value) {
+                                    checkbox = value!;
+                                  }),
+                              const Text('Use your Address'),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 10.0,
+                            ),
+                            child: defaultField(
+                              label: 'Address',
+                              widget: defaultTextFormField(
+                                  controll: address, type: TextInputType.text),
                             ),
                           ),
                           const SizedBox(
                             height: 10.0,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 10.0,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.location_on,
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Text(
+                                      'Destination',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                myDivider(),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 10.0,
+                              top: 10,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.check_box,
+                                  color: defaultColorGrey,
+                                ),
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                Text(
+                                  'Air Port',
+                                  style: TextStyle(
+                                    color: defaultColorGrey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Checkbox(
+                                  value: checkbox,
+                                  onChanged: (value) {
+                                    checkbox = value!;
+                                  }),
+                              const Text('Delivery'),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 10.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                defaultField(
+                                  label: 'Delivery Date',
+                                  widget: defaultTextFormField(
+                                    controll: pickupDate,
+                                    type: TextInputType.datetime,
+                                    ontap: () {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime.parse('2024-01-01'),
+                                      ).then((value) {
+                                        serviceDate.text =
+                                            DateFormat.yMMMd().format(value!);
+                                      });
+                                    },
+                                    validat: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Date must be not empty';
+                                      }
+                                      return null;
+                                    },
+                                    prefix: Icons.calendar_today,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                defaultField(
+                                  label: 'Delivery City :',
+                                  widget: defaultDropdownSearch(
+                                      items: cityList,
+                                      isSearch: true,
+                                      onChang: print,
+                                      selected: 'Select City'),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                defaultField(
+                                  label: 'Delivery Address',
+                                  widget: defaultTextFormField(
+                                      controll: deliveryAddress,
+                                      type: TextInputType.text),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.date_range,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        'Shipment Data',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
-                ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  defaultShipmentData(
+                    weight: weight,
+                    height: height,
+                    length: length,
+                    width: width,
+                    unit1: unit1,
+                    unit2: unit2,
+                    wid: Column(
+                      children: [
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: defaultTextFormField(
+                                label: 'HS Code',
+                                controll: hsCode,
+                                type: TextInputType.number,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: defaultTextFormField(
+                                label: 'Delcared Value',
+                                controll: delcaredValue,
+                                type: TextInputType.number,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.add,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        'Additional Services',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: defaultColorNavyBlue,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Checkbox(
+                                  value: checkbox,
+                                  onChanged: (value) {
+                                    checkbox = value!;
+                                  }),
+                              const Text('I Need Storage Service'),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 10.0,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: defaultTextFormField(
+                                        controll: fromDate,
+                                        type: TextInputType.datetime,
+                                        ontap: () {
+                                          showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate:
+                                                DateTime.parse('2024-01-01'),
+                                          ).then((value) {
+                                            fromDate.text = DateFormat.yMMMd()
+                                                .format(value!);
+                                          });
+                                        },
+                                        validat: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Date must be not empty';
+                                          }
+                                          return null;
+                                        },
+                                        label: 'From Date',
+                                        prefix: Icons.calendar_today,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Expanded(
+                                      child: defaultTextFormField(
+                                        controll: toDate,
+                                        type: TextInputType.datetime,
+                                        ontap: () {
+                                          showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate:
+                                                DateTime.parse('2024-01-01'),
+                                          ).then((value) {
+                                            toDate.text = DateFormat.yMMMd()
+                                                .format(value!);
+                                          });
+                                        },
+                                        validat: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Date must be not empty';
+                                          }
+                                          return null;
+                                        },
+                                        label: 'To Date',
+                                        prefix: Icons.calendar_today,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 10.0,
+                                ),
+                                child: defaultField(
+                                  label: 'Size',
+                                  widget: defaultDropdownSearch(
+                                    items: sizeList,
+                                    onChang: print,
+                                    isSearch: true,
+                                    selected: 'Select Size',
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                      value: checkbox,
+                                      onChanged: (value) {
+                                        checkbox = value!;
+                                      }),
+                                  const Text(
+                                    'Another',
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 10.0,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text('Description'),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    defaultTextFormField(
+                                      controll: description,
+                                      type: TextInputType.text,
+                                      maxline: 5,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10.0,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  defaultButton(
+                    text: 'SUBMIT',
+                    function: () {
+                      navigateto(context, const PendingBookingScreen());
+                    },
+                    color: defaultColorNavyBlue,
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              defaultButton(
-                text: 'SUBMIT',
-                function: (){
-                  navigateto(context, const PendingBookingScreen());
-                },
-                color: const Color(0xff000236),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
+      listener: (context, state) {
+        ind = 0;
+      },
     );
   }
 }

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/menu.dart';
 import 'package:masmix/controller/share/function_share/functions.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 
 class ContactScreen extends StatelessWidget {
   TextEditingController name = TextEditingController();
@@ -16,24 +18,21 @@ class ContactScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
     return Scaffold(
-      backgroundColor: const Color(0xff000236),
+      backgroundColor: defaultColorNavyBlue,
       appBar: AppBar(
-        backgroundColor: const Color(0xff000236),
+        backgroundColor: defaultColorNavyBlue,
         elevation: 0.0,
-        iconTheme: const IconThemeData(
-          color: Colors.white
-        ),
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xff000236),
+        iconTheme: IconThemeData(color: defaultColorWhite),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: defaultColorNavyBlue,
           statusBarIconBrightness: Brightness.light,
         ),
       ),
-      endDrawer: defaultDrawer(context: context, homeCubit: homeCubit),
+      endDrawer: defaultDrawer(context: context),
       body: SingleChildScrollView(
         child: Container(
-          color: const Color(0xff000236),
+          color: defaultColorNavyBlue,
           child: Stack(
             children: [
               Padding(
@@ -43,28 +42,28 @@ class ContactScreen extends StatelessWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'Contact Details',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: defaultColorWhite,
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20.0,
                     ),
                     Text(
                       'For registration questions please get in touch using the contact details below.',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: defaultColorWhite,
                       ),
                     ),
                     Text(
                       'For any questions use the form.',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: defaultColorWhite,
                       ),
                     ),
                   ],
@@ -73,14 +72,15 @@ class ContactScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 150.0),
                 child: Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.only(
-                        topEnd: Radius.circular(40),
-                        topStart: Radius.circular(40),
-                        bottomEnd: Radius.circular(40),
-                        bottomStart: Radius.circular(40),
-                      ),
-                      color: Colors.white),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadiusDirectional.only(
+                      topEnd: Radius.circular(40),
+                      topStart: Radius.circular(40),
+                      bottomEnd: Radius.circular(40),
+                      bottomStart: Radius.circular(40),
+                    ),
+                    color: defaultColorWhite,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
@@ -130,12 +130,13 @@ class ContactScreen extends StatelessWidget {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        functionsShare.launchInBrowser(launchTo: 1);
+                                        functionsShare.launchInBrowser(
+                                            launchTo: 1);
                                       },
-                                      child: const Text(
+                                      child: Text(
                                         'Privacy Policy',
                                         style: TextStyle(
-                                            color: Colors.blue,
+                                            color: defaultColorBlue,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ),
@@ -148,12 +149,13 @@ class ContactScreen extends StatelessWidget {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        functionsShare.launchInBrowser(launchTo: 2);
+                                        functionsShare.launchInBrowser(
+                                            launchTo: 2);
                                       },
-                                      child: const Text(
+                                      child: Text(
                                         'Terms & Conditions',
                                         style: TextStyle(
-                                            color: Colors.blue,
+                                            color: defaultColorBlue,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ),
@@ -169,7 +171,7 @@ class ContactScreen extends StatelessWidget {
                         defaultButton(
                           text: 'Submit',
                           function: () {},
-                          color: const Color(0xff000236),
+                          color: defaultColorNavyBlue,
                         ),
                         const SizedBox(
                           height: 40.0,
