@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:masmix/controller/cubits/easy2ship_cubit.dart';
 import 'package:masmix/controller/share/components/menu.dart';
 import 'package:masmix/controller/share/style/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../controller/share/components/component.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -20,17 +21,11 @@ class EasyTwoShipDetailsScreen extends StatefulWidget {
 class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
   int activeIndex = 0;
   final controller = CarouselController();
-  List<String> pathImages = [
-    'asset/images/1.gif',
-    'asset/images/2.jpg',
-    'asset/images/3.jpg',
-    'asset/images/4.jpg',
-    'asset/images/5.png',
-    'asset/images/6.jpg',
-  ];
+  // List<Uint8List> images = [];
 
   @override
   Widget build(BuildContext context) {
+    var easyCubit = Easy2ShipCubit.get(context);
     return Scaffold(
       backgroundColor: defaultColorNavyBlue,
       appBar: AppBar(
@@ -42,9 +37,6 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
           ),
         ),
         centerTitle: true,
-        leading: Image.asset(
-          'asset/images/logo-removebg.png',
-        ),
         backgroundColor: defaultColorNavyBlue,
         elevation: 0.0,
         systemOverlayStyle:  SystemUiOverlayStyle(
@@ -70,10 +62,10 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
               children: [
                 CarouselSlider.builder(
                   carouselController: controller,
-                  itemCount: pathImages.length,
+                  itemCount: easyCubit.images.length,
                   itemBuilder: (context, index, realIndex) {
-                    final urlImage = pathImages[index];
-                    return buildImage(urlImage, index);
+                    final image = easyCubit.images[index];
+                    return /*buildImage(urlImage, index)*/Image.memory(image);
                   },
                   options: CarouselOptions(
                     height: 400,
@@ -88,13 +80,13 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
                 const SizedBox(
                   height: 12,
                 ),
-                buildIndicator(),
+                buildIndicator(easyCubit.images.length),
                 const SizedBox(
                   height: 12,
                 ),
                 defaultButton(
-                  text: 'Back',
-                  widt: 100,
+                  text: AppLocalizations.of(context)!.backButton,
+                  width: 100,
                   function: () {
                     Navigator.of(context).pop();
                   },
@@ -108,7 +100,7 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
     );
   }
 
-  Widget buildIndicator() =>
+  Widget buildIndicator(count) =>
       AnimatedSmoothIndicator(
         onDotClicked: animateToSlide,
         effect: ExpandingDotsEffect(
@@ -116,7 +108,7 @@ class _EasyTwoShipDetailsScreenState extends State<EasyTwoShipDetailsScreen> {
           activeDotColor: defaultColorOrange,
         ),
         activeIndex: activeIndex,
-        count: pathImages.length,
+        count: count,
       );
 
   void animateToSlide(int index) => controller.animateToPage(index);

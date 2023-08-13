@@ -3,6 +3,8 @@
 import 'package:url_launcher/url_launcher.dart';
 
 class functionsShare {
+
+  //this function to make user go to website for ( FQA - privacy Policy - HOW TO USE )
   static Future<void> launchInBrowser({
     int? launchTo,
     String? urlPath,
@@ -28,5 +30,11 @@ class functionsShare {
     )) {
       throw 'Could not launch $url';
     }
+  }
+
+  //this function to display print Long String to help me to see all data
+  static void printLongString(String text) {
+    final RegExp pattern = RegExp('.{1,1000}'); // 800 is the size of each chunk
+    pattern.allMatches(text).forEach((RegExpMatch match) =>   print(match.group(0)));
   }
 }

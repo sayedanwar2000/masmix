@@ -6,10 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/cubits/app_cubit.dart';
 import 'package:masmix/controller/cubits/signup_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/text_form_field.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/controller/states/signup_states.dart';
 import 'package:masmix/views/sign_in_screen/signin.dart';
 import 'package:masmix/views/sign_up_screen/second_sign_up.dart';
 import 'package:masmix/controller/share/function_share/functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FirstSignupScreen extends StatelessWidget {
   TextEditingController firstName = TextEditingController();
@@ -42,8 +45,8 @@ class FirstSignupScreen extends StatelessWidget {
                   child: Card(
                     elevation: 10,
                     shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: Color(0xfff7921c),
+                      side: BorderSide(
+                        color: defaultColorOrange,
                       ),
                       borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                     ),
@@ -51,22 +54,22 @@ class FirstSignupScreen extends StatelessWidget {
                       children: [
                         Container(
                           width: double.infinity,
-                          decoration: const BoxDecoration(
-                              color: Color(0xfff7921c),
-                              borderRadius: BorderRadius.only(
+                          decoration: BoxDecoration(
+                              color: defaultColorOrange,
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20.0),
                                 topRight: Radius.circular(20.0),
                               )),
-                          child: const Padding(
-                            padding: EdgeInsets.only(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
                               top: 20,
                               bottom: 20,
                             ),
                             child: Center(
                               child: Text(
-                                'Create an Account.',
+                                AppLocalizations.of(context)!.headerSignUp,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: defaultColorWhite,
                                   fontSize: 30.0,
                                 ),
                               ),
@@ -92,10 +95,10 @@ class FirstSignupScreen extends StatelessWidget {
                                         type: TextInputType.text,
                                         validat: (String? value) {
                                           if (value!.isEmpty) {
-                                            return 'please enter your first name address';
+                                            return AppLocalizations.of(context)!.firstNameError;
                                           }
                                         },
-                                        label: 'First Name',
+                                        label: AppLocalizations.of(context)!.firstName,
                                       ),
                                     ),
                                     const SizedBox(
@@ -107,10 +110,10 @@ class FirstSignupScreen extends StatelessWidget {
                                         type: TextInputType.text,
                                         validat: (String? value) {
                                           if (value!.isEmpty) {
-                                            return 'please enter your last name address';
+                                            return AppLocalizations.of(context)!.lastNameError;
                                           }
                                         },
-                                        label: 'Last Name',
+                                        label: AppLocalizations.of(context)!.lastName,
                                       ),
                                     ),
                                   ],
@@ -123,10 +126,10 @@ class FirstSignupScreen extends StatelessWidget {
                                   type: TextInputType.emailAddress,
                                   validat: (String? value) {
                                     if (value!.isEmpty) {
-                                      return 'please enter your Email address';
+                                      return AppLocalizations.of(context)!.emailError;
                                     }
                                   },
-                                  label: 'E-mail',
+                                  label: AppLocalizations.of(context)!.email,
                                   prefix: Icons.email,
                                 ),
                                 const SizedBox(
@@ -152,10 +155,10 @@ class FirstSignupScreen extends StatelessWidget {
                                         type: TextInputType.phone,
                                         validat: (String? value) {
                                           if (value!.isEmpty) {
-                                            return 'please enter your phone address';
+                                            return AppLocalizations.of(context)!.phoneError;
                                           }
                                         },
-                                        label: 'Phone',
+                                        label: AppLocalizations.of(context)!.phone,
                                         prefix: Icons.phone,
                                       ),
                                     ),
@@ -170,7 +173,7 @@ class FirstSignupScreen extends StatelessWidget {
                                   children: [
                                     Checkbox(
                                       value: signupCubit.checkbox,
-                                      activeColor: const Color(0xfff7921c),
+                                      activeColor: defaultColorOrange,
                                       onChanged: (value) {
                                         signupCubit.changeCheckbox(value!);
                                       },
@@ -179,18 +182,18 @@ class FirstSignupScreen extends StatelessWidget {
                                       children: [
                                         Row(
                                           children: [
-                                            const Text(
-                                              'i have read Mas MIX ',
+                                            Text(
+                                              AppLocalizations.of(context)!.masMix,
                                             ),
                                             InkWell(
                                               onTap: () {
                                                 functionsShare.launchInBrowser(
                                                     launchTo: 1);
                                               },
-                                              child: const Text(
-                                                'Privacy Policy',
+                                              child: Text(
+                                                AppLocalizations.of(context)!.privacyPolicy,
                                                 style: TextStyle(
-                                                    color: Colors.blue,
+                                                    color: defaultColorBlue,
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -199,8 +202,8 @@ class FirstSignupScreen extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const Text(
-                                              'and ',
+                                            Text(
+                                              AppLocalizations.of(context)!.and,
                                             ),
                                             InkWell(
                                               onTap: () {
@@ -208,10 +211,10 @@ class FirstSignupScreen extends StatelessWidget {
                                                   launchTo: 2,
                                                 );
                                               },
-                                              child: const Text(
-                                                'Terms & Conditions',
+                                              child:  Text(
+                                                AppLocalizations.of(context)!.terms,
                                                 style: TextStyle(
-                                                  color: Colors.blue,
+                                                  color: defaultColorBlue,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
@@ -223,9 +226,8 @@ class FirstSignupScreen extends StatelessWidget {
                                   ],
                                 ),
                                 defaultButton(
-                                  text: 'Register',
+                                  text: AppLocalizations.of(context)!.register,
                                   function: () {
-                                    print(signupCubit.countryCode);
                                     if (formKey.currentState!.validate()) {
                                       signupCubit.firstName = firstName;
                                       signupCubit.lastName = lastName;
@@ -247,11 +249,11 @@ class FirstSignupScreen extends StatelessWidget {
                                           ..hideCurrentSnackBar()
                                           ..showSnackBar(snackBar);
                                       } else {
-                                        navigateto(context, SecondSignupScreen());
+                                        navigateAndFinish(context, SecondSignupScreen());
                                       }
                                     }
                                   },
-                                  color: const Color(0xfff7921c),
+                                  color: defaultColorOrange,
                                 ),
                                 const SizedBox(
                                   height: 20.0,
@@ -259,13 +261,13 @@ class FirstSignupScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     Expanded(child: myDivider()),
-                                    const Padding(
-                                      padding: EdgeInsetsDirectional.only(
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.only(
                                         start: 5,
                                         end: 5,
                                       ),
                                       child: Text(
-                                        'or countinue with',
+                                        AppLocalizations.of(context)!.continueWith,
                                       ),
                                     ),
                                     Expanded(
@@ -307,12 +309,12 @@ class FirstSignupScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text('Already have an account?'),
+                                    Text(AppLocalizations.of(context)!.account1),
                                     defaultTextButton(
                                       function: () {
                                         navigateto(context, SigninScreen());
                                       },
-                                      text: 'Log in',
+                                      text: AppLocalizations.of(context)!.login,
                                     ),
                                   ],
                                 ),

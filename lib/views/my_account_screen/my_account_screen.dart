@@ -4,19 +4,21 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/cubits/app_cubit.dart';
-import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/cubits/login_cubit.dart';
 import 'package:masmix/controller/cubits/my_account_cubit.dart';
+import 'package:masmix/controller/share/components/card_address_info.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/components/menu.dart';
+import 'package:masmix/controller/share/components/text_form_field.dart';
+import 'package:masmix/controller/share/network/local/cache_helper/cache.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/controller/states/my_account_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyAccountScreen extends StatelessWidget {
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
   TextEditingController phone1 = TextEditingController();
   TextEditingController State = TextEditingController();
   TextEditingController postalCode = TextEditingController();
@@ -24,17 +26,21 @@ class MyAccountScreen extends StatelessWidget {
   TextEditingController companyCode = TextEditingController();
   TextEditingController voucherCode = TextEditingController();
   TextEditingController phone2 = TextEditingController();
+  List<TextEditingController> stateList = [];
+  List<TextEditingController> addressList = [];
+  List<TextEditingController> postalCodeList = [];
+  String username = CacheHelper.getData(key: 'username') ?? '';
+  String password = CacheHelper.getData(key: 'password') ?? '';
 
   MyAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
     var appCubit = AppCubit.get(context);
-    var myAccountCubit = MyAccountCubit.get(context);
-    var userData = LoginCubit
-        .get(context)
-        .loginModel;
+    var userData = LoginCubit.get(context).loginModel;
+    var myAccountCubit = MyAccountCubit.get(context)
+      ..getMyAddress(userId: userData.id);
+    var loginCubit = LoginCubit.get(context);
     firstName.text = userData.fName.toString();
     lastName.text = userData.lName.toString();
     email.text = userData.email.toString();
@@ -42,46 +48,33 @@ class MyAccountScreen extends StatelessWidget {
     State.text = userData.invoiceStateCode.toString();
     postalCode.text = userData.invoiceZipPostalCode.toString();
     address.text = userData.invoiceAddress.toString();
-    companyCode.text = userData.companyCode.toString();
+    companyCode.text = userData.companyCode.toString() == '0'
+        ? ''
+        : userData.companyCode.toString();
     voucherCode.text = userData.voucherCode.toString();
     phone2.text = userData.mob1.toString();
-    myAccountCubit.language = myAccountCubit.language ??
-        appCubit.getLanguageValue(userData.defaultLanguage);
-    myAccountCubit.country = myAccountCubit.country ??
-        appCubit.getCountryValue(userData.invoiceCountryCode);
-    myAccountCubit.city =
-        myAccountCubit.city ?? appCubit.getCityValue(userData.invoiceCityCode);
-    print(myAccountCubit.language);
-    print(myAccountCubit.country);
-    print(myAccountCubit.city);
-
+    myAccountCubit.changeLanguage(myAccountCubit.language ??
+        appCubit.getLanguageValue(userData.defaultLanguage));
+    myAccountCubit.changeCountry(
+      value: myAccountCubit.country ??
+          appCubit.getCountryValue(userData.invoiceCountryCode),
+    );
+    myAccountCubit.changeCity(
+      value: myAccountCubit.city ??
+          appCubit.getCityValue(userData.invoiceCityCode),
+    );
     return BlocConsumer<MyAccountCubit, MyAccountStates>(
       listener: (context, state) {
-        if(state is UpDateSuccessState){
-          userData.fName = firstName.text;
-          userData.lName = lastName.text;
-          userData.email = email.text;
-          userData.mob = phone1.text;
-          userData.invoiceStateCode = State.text;
-          userData.invoiceZipPostalCode = postalCode.text;
-          userData.invoiceAddress = address.text;
-          userData.companyCode = companyCode.text;
-          userData.voucherCode = voucherCode.text;
-          userData.mob1 = phone2.text;
-          userData.defaultLanguage = appCubit.getLanguageKey(myAccountCubit.language);
-          userData.invoiceCountryCode = appCubit.getCountryKey(myAccountCubit.country);
-          userData.invoiceCityCode = appCubit.getCityKey(myAccountCubit.city);
-          userData.accountType = appCubit.getAccountTypKey(myAccountCubit.accountType);
-          userData.accountTypeName = myAccountCubit.accountType;
-          userData.phoneCountryCode = myAccountCubit.countrycode;
-          userData.currency = appCubit.getCurrencyKey(myAccountCubit.currency).toString();
+        print(state);
+        if (state is UpDateSuccessState) {
+          loginCubit.userLogin(email: username, password: password);
           final snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
-              title: 'Oh Hey!!',
-              message: 'UPDATE SUCCESS',
+              title: AppLocalizations.of(context)!.success,
+              message: AppLocalizations.of(context)!.upDateMessageSuccess,
               contentType: ContentType.success,
               // to configure for material banner
               inMaterialBanner: true,
@@ -90,17 +83,14 @@ class MyAccountScreen extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackBar);
-        }
-        else if(state is UpDateErrorState){
+        } else if (state is UpDateErrorState) {
           final snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
-              title: 'Error!',
-              message:
-              'UPDATE FAILED!',
-
+              title: AppLocalizations.of(context)!.error,
+              message: AppLocalizations.of(context)!.upDateMessageError,
               contentType: ContentType.failure,
             ),
           );
@@ -112,7 +102,7 @@ class MyAccountScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('My Account'),
+            title: Text(AppLocalizations.of(context)!.titleProfileScreen),
             centerTitle: true,
           ),
           endDrawer: defaultDrawer(context: context),
@@ -127,9 +117,9 @@ class MyAccountScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Account Info:',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.accountInfo,
+                    style: const TextStyle(
                       fontSize: 15.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -145,7 +135,7 @@ class MyAccountScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: defaultField(
-                          label: 'First Name',
+                          label: AppLocalizations.of(context)!.firstName,
                           widget: defaultTextFormField(
                             controll: firstName,
                             type: TextInputType.text,
@@ -157,7 +147,7 @@ class MyAccountScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: defaultField(
-                          label: 'Last Name',
+                          label: AppLocalizations.of(context)!.lastName,
                           widget: defaultTextFormField(
                             controll: lastName,
                             type: TextInputType.text,
@@ -173,14 +163,17 @@ class MyAccountScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: defaultField(
-                          label: 'Country Code',
+                          label: AppLocalizations.of(context)!.countryCode,
                           widget: defaultDropdownSearch(
                             items: appCubit.countryCodeList,
                             isSearch: true,
                             onChang: (value) {
                               myAccountCubit.changeCountryCode(value);
                             },
-                            selected: userData.phoneCountryCode.toString(),
+                            selected:
+                                userData.phoneCountryCode.toString() == 'null'
+                                    ? 'Select'
+                                    : userData.phoneCountryCode.toString(),
                           ),
                         ),
                       ),
@@ -189,7 +182,7 @@ class MyAccountScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: defaultField(
-                          label: 'Phone No',
+                          label: AppLocalizations.of(context)!.phoneNo,
                           widget: defaultTextFormField(
                             controll: phone1,
                             type: TextInputType.number,
@@ -202,7 +195,7 @@ class MyAccountScreen extends StatelessWidget {
                     height: 20.0,
                   ),
                   defaultField(
-                    label: 'Email Address',
+                    label: AppLocalizations.of(context)!.email,
                     widget: defaultTextFormField(
                       controll: email,
                       type: TextInputType.emailAddress,
@@ -215,14 +208,17 @@ class MyAccountScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: defaultField(
-                          label: 'Account Type',
+                          label: AppLocalizations.of(context)!.accountType,
                           widget: defaultDropdownSearch(
                             items: appCubit.accountTypeList,
                             onChang: (value) {
                               myAccountCubit.changeAccountType(value);
                             },
                             height: 120,
-                            selected: userData.accountTypeName.toString(),
+                            selected:
+                                userData.accountTypeName.toString() == 'null'
+                                    ? 'Select'
+                                    : userData.accountTypeName.toString(),
                           ),
                         ),
                       ),
@@ -231,7 +227,7 @@ class MyAccountScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: defaultField(
-                          label: 'Choose your language',
+                          label: AppLocalizations.of(context)!.chooseLanguage,
                           widget: defaultDropdownSearch(
                             items: appCubit.languageList,
                             onChang: (value) {
@@ -252,7 +248,7 @@ class MyAccountScreen extends StatelessWidget {
                     height: 20.0,
                   ),
                   defaultField(
-                    label: 'Choose your currency',
+                    label: AppLocalizations.of(context)!.chooseCurrency,
                     widget: defaultDropdownSearch(
                       items: appCubit.currencyList,
                       onChang: (value) {
@@ -269,7 +265,7 @@ class MyAccountScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: defaultField(
-                          label: 'Company Code',
+                          label: AppLocalizations.of(context)!.companyCode,
                           widget: defaultTextFormField(
                             controll: companyCode,
                             type: TextInputType.text,
@@ -281,7 +277,7 @@ class MyAccountScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: defaultField(
-                          label: 'Voucher Code',
+                          label: AppLocalizations.of(context)!.voucherCode,
                           widget: defaultTextFormField(
                             controll: voucherCode,
                             type: TextInputType.text,
@@ -297,7 +293,7 @@ class MyAccountScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: defaultField(
-                          label: 'Country Code',
+                          label: AppLocalizations.of(context)!.countryCode,
                           widget: defaultDropdownSearch(
                             items: appCubit.countryCodeList,
                             isSearch: true,
@@ -313,7 +309,7 @@ class MyAccountScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: defaultField(
-                          label: 'PHONE NO.2',
+                          label: AppLocalizations.of(context)!.phoneNo2,
                           widget: defaultTextFormField(
                             controll: phone2,
                             type: TextInputType.number,
@@ -325,109 +321,105 @@ class MyAccountScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20.0,
                   ),
+                  cardAddressInfo(
+                    context: context,
+                    countryList: appCubit.countryList,
+                    functionCountry: (value) {
+                      myAccountCubit.changeCountry(value: value);
+                    },
+                    selectCountry: myAccountCubit.country,
+                    city: appCubit.city,
+                    state: State,
+                    address: address,
+                    postalCode: postalCode,
+                    functionCity: (value) {
+                      myAccountCubit.changeCity(value: value);
+                    },
+                    selectCity: myAccountCubit.city,
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemBuilder: (context, index) =>
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Address Info:',
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            myDivider(),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: defaultField(
-                                    label: 'Country',
-                                    widget: defaultDropdownSearch(
-                                      items: appCubit.countryList,
-                                      isSearch: true,
-                                      onChang: (value) {
-                                        myAccountCubit.changeCountry(value);
-                                      },
-                                      selected: myAccountCubit.country,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                Expanded(
-                                  child: defaultField(
-                                    label: 'State',
-                                    widget: defaultTextFormField(
-                                      controll: State,
-                                      type: TextInputType.text,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: defaultField(
-                                    label: 'City',
-                                    widget: defaultDropdownSearch(
-                                      items: appCubit.city,
-                                      isSearch: true,
-                                      onChang: (value) {
-                                        myAccountCubit.changeCity(value);
-                                      },
-                                      selected: myAccountCubit.city,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                Expanded(
-                                  child: defaultField(
-                                    label: 'Postal Code/ZIP',
-                                    widget: defaultTextFormField(
-                                      controll: postalCode,
-                                      type: TextInputType.number,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            defaultField(
-                              label: 'Address',
-                              widget: defaultTextFormField(
-                                controll: address,
-                                type: TextInputType.text,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            myDivider(),
-                          ],
-                        ),
-                    separatorBuilder: (context, index) =>
-                    const SizedBox(
+                    itemBuilder: (context, index) {
+                      if (stateList.length < myAccountCubit.myAddress.length) {
+                        stateList.add(TextEditingController());
+                        addressList.add(TextEditingController());
+                        postalCodeList.add(TextEditingController());
+                      } else {
+                        stateList[index].text =
+                            myAccountCubit.myAddress[index]['state_code'];
+                        addressList[index].text =
+                            myAccountCubit.myAddress[index]['address'];
+                        postalCodeList[index].text =
+                            myAccountCubit.myAddress[index]['zip_postal_code'].toString();
+                      }
+                      return cardAddressInfo(
+                        context: context,
+                        isList: true,
+                        index: index,
+                        countryList: appCubit.countryList,
+                        functionCountry: (value) {
+                          myAccountCubit.changeCountry(
+                            value: appCubit.getCountryKey(value),
+                            index: index,
+                            isCode: true,
+                          );
+                        },
+                        selectCountry:
+                            myAccountCubit.countryCodeList[index] == 0
+                                ? 'Select'
+                                : appCubit.getCountryValue(
+                                    myAccountCubit.countryCodeList[index]),
+                        city: appCubit.city,
+                        state: stateList[index],
+                        address: addressList[index],
+                        postalCode: postalCodeList[index],
+                        functionCity: (value) {
+                          myAccountCubit.changeCity(
+                            value: appCubit.getCityKey(value),
+                            isCode: true,
+                            index: index,
+                          );
+                        },
+                        selectCity: myAccountCubit.cityCodeList[index] == 0
+                            ? 'Select'
+                            : appCubit.getCityValue(
+                                myAccountCubit.cityCodeList[index]),
+                        functionAdd: () {
+                          myAccountCubit.addMyAddress(
+                            userId: userData.id,
+                            address: addressList[index].text,
+                            state: stateList[index].text,
+                            zip: postalCodeList[index].text,
+                            index: index,
+                          );
+                        },
+                        functionUpdate: () {
+                          myAccountCubit.updateMyAddress(
+                            addressId:
+                                myAccountCubit.myAddress[index]['id'].round(),
+                            address: addressList[index].text,
+                            state: stateList[index].text,
+                            zip: postalCodeList[index].text,
+                            index: index,
+                          );
+                        },
+                        functionDelete: () {
+                          myAccountCubit.deleteMyAddress(
+                            addressId:
+                                myAccountCubit.myAddress[index]['id'].round(),
+                            index: index,
+                          );
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(
                       height: 20.0,
                     ),
-                    itemCount: myAccountCubit.itemCountAddress,
+                    itemCount: myAccountCubit.myAddress.length,
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -435,33 +427,46 @@ class MyAccountScreen extends StatelessWidget {
                   Column(
                     children: [
                       defaultButton(
-                        text: 'ADD ANOTHER ADDRESS',
+                        width: double.infinity,
+                        text: AppLocalizations.of(context)!.otherAddresses,
                         function: () {
-                          myAccountCubit.changeItemCountAddress(
-                              ++myAccountCubit.itemCountAddress);
+                          myAccountCubit.changeCountAddress(isAdd: true);
                         },
-                        color: const Color(0xff000236),
+                        color: defaultColorNavyBlue,
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
                       defaultButton(
-                        text: 'UPDATE ACCOUNT',
+                        width: double.infinity,
+                        text: AppLocalizations.of(context)!.upDateAccountButton,
                         function: () {
                           myAccountCubit.userUpDate(
                             id: userData.id.toString(),
-                            accountType: appCubit.getAccountTypKey(myAccountCubit.accountType).toString(),
-                            accountTypeName: myAccountCubit.accountType.toString(),
-                            defaultLanguage: appCubit.getLanguageKey(myAccountCubit.language).toString(),
+                            accountType: appCubit
+                                .getAccountTypKey(myAccountCubit.accountType)
+                                .toString(),
+                            accountTypeName:
+                                myAccountCubit.accountType.toString(),
+                            defaultLanguage: appCubit
+                                .getLanguageKey(myAccountCubit.language)
+                                .toString(),
                             fName: firstName.text,
                             lNme: lastName.text,
                             mob: phone1.text,
-                            phoneCountryCode: myAccountCubit.countrycode.toString(),
-                            invoiceAddress: address.text ,
-                            invoiceCountryCode: appCubit.getCountryKey(myAccountCubit.country).toString(),
-                            invoiceCityCode: appCubit.getCityKey(myAccountCubit.city).toString(),
+                            phoneCountryCode:
+                                myAccountCubit.countrycode.toString(),
+                            invoiceAddress: address.text,
+                            invoiceCountryCode: appCubit
+                                .getCountryKey(myAccountCubit.country)
+                                .toString(),
+                            invoiceCityCode: appCubit
+                                .getCityKey(myAccountCubit.city)
+                                .toString(),
                             emailSent: userData.emailSent.toString(),
-                            currency: appCubit.getCurrencyKey(myAccountCubit.currency).toString(),
+                            currency: appCubit
+                                .getCurrencyKey(myAccountCubit.currency)
+                                .toString(),
                             voucherCode: voucherCode.text,
                             companyCode: companyCode.text,
                             invoiceStateCode: State.text,
@@ -469,7 +474,7 @@ class MyAccountScreen extends StatelessWidget {
                             referralCode: userData.referralCode.toString(),
                           );
                         },
-                        color: const Color(0xff000236),
+                        color: defaultColorNavyBlue,
                       ),
                     ],
                   ),

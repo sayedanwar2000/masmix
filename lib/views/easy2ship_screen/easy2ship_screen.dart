@@ -1,388 +1,102 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masmix/controller/cubits/easy2ship_cubit.dart';
+import 'package:masmix/controller/cubits/login_cubit.dart';
+import 'package:masmix/controller/share/components/card_easy2ship.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/components/menu.dart';
-import 'package:masmix/controller/share/style/colors.dart';
+import 'package:masmix/controller/states/easy2ship_states.dart';
+import 'package:masmix/views/easy2ship_screen/show_price_package_screen.dart';
 import 'easy2ship_details_screen.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EasyTowShipScreen extends StatelessWidget {
-  var button = <String>[
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-    'Show Payment',
-    'cancel',
-    'Cancel Preparation',
-  ];
-  final List<Map<String, dynamic>> _items = List.generate(
-      20,
-      (index) => {
-            'id': index,
-            'title': 'Approve payment pending $index',
-            'OrderID': index,
-            'description':
-                'This is the description of the item $index. There is nothing important here. In fact, it is meaningless.',
-          });
-
-  EasyTowShipScreen({super.key});
+  const EasyTowShipScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Easy2Ship'),
-        centerTitle: true,
-        leading: Image.asset(
-          'asset/images/logo-removebg.png',
-        ),
-      ),
-      endDrawer: defaultDrawer(context: context),
-      body: true
-          ? SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: defaultColorWhite,
-                    border: Border.all(
-                      color: defaultColorNavyBlue,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      ExpansionPanelList.radio(
-                        children: _items
-                            .map(
-                              (e) => ExpansionPanelRadio(
-                                value: e['id'],
-                                headerBuilder:
-                                    (BuildContext context, bool isExpanded) =>
-                                        Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 10.0,
-                                    bottom: 10.0,
-                                    right: 10.0,
-                                    left: 20.0,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Text('ID : '),
-                                          Text(e['OrderID'].toString()),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Text('Status : '),
-                                          Text(
-                                            e['title'].toString(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      defaultButton(
-                                        text: button[e['id']],
-                                        widt: 200,
-                                        function: () {
-                                          if (button[e['id']] ==
-                                              'Show Payment') {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    content: SizedBox(
-                                                      height: 555,
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Order ID :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Courier Name :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Country Name :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text('Service :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Delivery Time :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Tracking :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Charged Weight :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Shippment Cost :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Insurance :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Extra Service :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Dangerous Goods :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          Row(
-                                                            children: const [
-                                                              Text(
-                                                                  'Total Price :'),
-                                                              SizedBox(
-                                                                width: 10.0,
-                                                              ),
-                                                              Text('sayed'),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20.0,
-                                                          ),
-                                                          defaultButton(
-                                                            text: 'Back',
-                                                            widt: 100,
-                                                            function: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            color:
-                                                                defaultColorNavyBlue,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  );
-                                                });
-                                          }
-                                        },
-                                        color: defaultColorNavyBlue,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                body: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Card(
-                                    elevation: 10,
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        color: defaultColorNavyBlue,
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                          20.0), //<-- SEE HERE
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Row(
-                                        children: [
-                                          const SizedBox(
-                                            width: 10.0,
-                                          ),
-                                          Container(
-                                            width: 2.0,
-                                            height: 60,
-                                            color: defaultColorNavyBlue,
-                                          ),
-                                          const SizedBox(
-                                            width: 10.0,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Row(
-                                                children: const [
-                                                  Text('Desc : '),
-                                                  SizedBox(
-                                                    width: 5.0,
-                                                  ),
-                                                  Text('canada package 1'),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 20.0,
-                                              ),
-                                              Row(
-                                                children: const [
-                                                  Text('Barcode : '),
-                                                  SizedBox(
-                                                    width: 5.0,
-                                                  ),
-                                                  Text('1234567890'),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          defaultButton(
-                                            text: 'Photos',
-                                            widt: 100,
-                                            function: () {
-                                              navigateto(context,
-                                                  const EasyTwoShipDetailsScreen());
-                                            },
-                                            color: defaultColorNavyBlue,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+    var userDate = LoginCubit.get(context).loginModel;
+    var easy2ShipCubit = Easy2ShipCubit.get(context)..getOrder(id: 51);
+    return BlocConsumer<Easy2ShipCubit, Easy2ShipStates>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Easy2Ship'),
+            centerTitle: true,
+          ),
+          endDrawer: defaultDrawer(context: context),
+          body: state is GetOrderEasy2ShipLoadingStates
+              ? const Center(child: CircularProgressIndicator())
+              : easy2ShipCubit.easy2ShipOrder.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => cardEasy2ShipOrder(
+                            functionDetails: () {
+                              easy2ShipCubit.getPackage(
+                                orderId: easy2ShipCubit.easy2ShipOrder[index]
+                                        ['order_id']
+                                    .round(),
+                                index: index,
+                              );
+                            },
+                            easy2ShipOrder:
+                                easy2ShipCubit.easy2ShipOrder[index],
+                            iconExpendedOrder:
+                                easy2ShipCubit.iconExpendedOrder[index],
+                            isExpendedOrder: easy2ShipCubit.isShowOrder[index],
+                            context: context,
+                            index: index,
+                            userId: userDate.id,
+                            countryCode: userDate.invoiceCountryCode,
+                            cityCode: userDate.invoiceCityCode,
+                            zip: userDate.invoiceZipPostalCode,
+                            voucherCode: userDate.voucherCode,
+                          ),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                          itemCount: easy2ShipCubit.easy2ShipOrder.length,
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          : isEmpty(name: 'packages'),
+                    )
+                  : isEmpty(context: context),
+        );
+      },
+      listener: (context, state) {
+        if (state is GetPackageDetailsEasy2ShipSuccessStates) {
+          navigateto(context, const EasyTwoShipDetailsScreen());
+        }
+        if (state is CancelPackageEasy2ShipSuccessStates ||
+            state is PrepareEasy2ShipSuccessStates
+            ) {
+          easy2ShipCubit.getOrder(id: userDate.id);
+        }
+        if (state is PrepareEasy2ShipErrorStates) {
+          final snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Error!',
+              message: 'You Must Add Declared Value Before Prepare!',
+              contentType: ContentType.failure,
+            ),
+          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackBar);
+        }
+        if (state is ShowPricePackageEasy2ShipSuccessStates) {
+          navigateto(context, const ShowPricePackageScreen());
+        }
+      },
     );
   }
 }

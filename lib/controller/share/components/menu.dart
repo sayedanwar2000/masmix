@@ -1,57 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
-import 'package:masmix/controller/cubits/login_cubit.dart';
-import 'package:masmix/controller/cubits/mas4me_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/network/local/cache_helper/cache.dart';
 import 'package:masmix/views/calculate_screen/calculate_screen.dart';
 import 'package:masmix/views/contact_screen/contact_screen.dart';
 import 'package:masmix/views/drawer_header/drawer_header.dart';
-import 'package:masmix/views/easy2ship_screen/easy2ship_settings_screen.dart';
+import 'package:masmix/views/easy2ship_settings_screen/easy2ship_settings_screen.dart';
 import 'package:masmix/views/home_screen/home_screen.dart';
 import 'package:masmix/views/how_to_use_screen/how_to_use_screen.dart';
 import 'package:masmix/views/my_account_screen/my_account_screen.dart';
-import 'package:masmix/views/pending_screen/pendingbookingscreen.dart';
+import 'package:masmix/views/payment_product_screen/payment_product_screen.dart';
 import 'package:masmix/views/referral_code_screen/referral_code_screen.dart';
 import 'package:masmix/views/welcome_screen/welcome.dart';
 import 'package:masmix/controller/share/function_share/functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
+//this function to return menu
 Widget defaultDrawer({
   required context,
 }) {
   var homeCubit = HomeCubit.get(context);
-  var mas4meCubit = Mas4meCubit.get(context);
-  var id = LoginCubit.get(context).loginModel.id;
   return Drawer(
     child: ListView(
       padding: EdgeInsets.zero,
       children: <Widget>[
-        MyDrawerHeader(),
+        Directionality(textDirection: TextDirection.ltr, child: MyDrawerHeader(),),
         ListTile(
           leading: const Icon(Icons.person_outline_outlined),
-          title: const Text('Profile'),
+          title: Text(AppLocalizations.of(context)!.titleProfileScreen),
           onTap: () {
             navigateto(context, MyAccountScreen());
           },
         ),
         ListTile(
           leading: const Icon(Icons.code),
-          title: const Text('Referral code'),
+          title: Text(AppLocalizations.of(context)!.titleReferralCodeScreen),
           onTap: () {
-            navigateto(context, ReferralCodeScreen());
+            navigateto(context, const ReferralCodeScreen());
           },
         ),
         ListTile(
           leading: const Icon(Icons.calculate_outlined),
-          title: const Text('Easy2Ship Cost Calculator'),
+          title: Text(AppLocalizations.of(context)!.titleCalculatorScreen),
           onTap: () {
             navigateto(context, CalculateScreen());
           },
         ),
         ListTile(
           leading: const Icon(Icons.warehouse_outlined),
-          title: const Text('My Storage'),
+          title: Text(AppLocalizations.of(context)!.titleMyStorageScreen),
           onTap: () {
             homeCubit.changePageNumber(4);
             navigateto(context, HomeScreen());
@@ -67,7 +64,7 @@ Widget defaultDrawer({
         ),
         ListTile(
           leading: const Icon(Icons.storage_outlined),
-          title: const Text('My Packages'),
+          title: Text(AppLocalizations.of(context)!.titleMyPackagesScreen),
           onTap: () {
             homeCubit.changePageNumber(3);
             navigateto(context, HomeScreen());
@@ -75,7 +72,7 @@ Widget defaultDrawer({
         ),
         ListTile(
           leading: const Icon(Icons.inventory_sharp),
-          title: const Text('Invoices'),
+          title: Text(AppLocalizations.of(context)!.titleInvoicesScreen),
           onTap: () {
             homeCubit.changePageNumber(0);
             navigateto(context, HomeScreen());
@@ -83,43 +80,56 @@ Widget defaultDrawer({
         ),
         ListTile(
           leading: const Icon(Icons.payments_outlined),
-          title: const Text('Pending'),
+          title: Text(AppLocalizations.of(context)!.titlePaymentScreen),
           onTap: () {
-            mas4meCubit.getMas4Me(currUserId: id);
-            navigateto(context, const PendingBookingScreen());
+            navigateto(context, const PaymentProductScreen());
           },
         ),
         ListTile(
           leading: const Icon(Icons.data_usage_outlined),
-          title: const Text('How To Use'),
+          title: Text(AppLocalizations.of(context)!.titleHowToUseScreen),
           onTap: () {
             navigateto(context, const HowToUseScreen());
           },
         ),
         ListTile(
           leading: const Icon(Icons.quiz_outlined),
-          title: const Text('FAQ'),
+          title: Text(AppLocalizations.of(context)!.titleFAQScreen),
           onTap: () {
             functionsShare.launchInBrowser(launchTo: 3);
           },
         ),
         ListTile(
+          leading: const Icon(Icons.security),
+          title: Text(AppLocalizations.of(context)!.privacyPolicy),
+          onTap: () {
+            functionsShare.launchInBrowser(launchTo: 1);
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.gavel),
+          title: Text(AppLocalizations.of(context)!.terms),
+          onTap: () {
+            functionsShare.launchInBrowser(launchTo: 2);
+          },
+        ),
+        ListTile(
           leading: const Icon(Icons.support_agent),
-          title: const Text('Contact'),
+          title: Text(AppLocalizations.of(context)!.titleContactScreen),
           onTap: () {
             navigateto(context, ContactScreen());
           },
         ),
         ListTile(
           leading: const Icon(Icons.settings_outlined),
-          title: const Text('EASY2SHIP Settings'),
+          title:  Text(AppLocalizations.of(context)!.titleSettingsScreen),
           onTap: () {
             navigateto(context, EASY2SHIPSettingsScreen());
           },
         ),
         ListTile(
           leading: const Icon(Icons.logout_outlined),
-          title: const Text('Log out'),
+          title: Text(AppLocalizations.of(context)!.logOut),
           onTap: () {
             CacheHelper.removeData(key: 'username');
             CacheHelper.removeData(key: 'userID');

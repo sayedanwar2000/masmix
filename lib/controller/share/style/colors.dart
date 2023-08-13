@@ -7,5 +7,8 @@ Color defaultColorWhite = Colors.white;
 Color defaultColorBlack = Colors.black;
 Color defaultColorBlue = Colors.blue;
 Color defaultColorGrey = Colors.grey;
+Color defaultColorRed = Colors.red;
+Color defaultColorTransparent = Colors.transparent;
+var defaultColorLightGrey = Colors.grey[300];
 
 

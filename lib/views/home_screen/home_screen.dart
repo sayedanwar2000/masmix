@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/cubits/home_cubit.dart';
+import 'package:masmix/controller/cubits/login_cubit.dart';
 import 'package:masmix/controller/share/components/menu.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/controller/states/home_states.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,28 +15,34 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
+    var userModel = LoginCubit.get(context).loginModel;
+    var homeCubit = HomeCubit.get(context)
+      ..getInvoices(id: userModel.id)
+      ..getQuotations(id: userModel.id)
+      ..getPackages(id: userModel.id)
+      ..getMyStorage(id: userModel.id);
     return BlocConsumer<HomeCubit,HomeStates>(
       listener: (context,state){},
       builder: (context,state){
         return Scaffold(
-          backgroundColor: const Color(0xff000236),
+          backgroundColor: defaultColorNavyBlue,
           appBar: AppBar(
             title: Text(
-              homeCubit.titleScreen[homeCubit.page],
-              style: const TextStyle(
-                color: Colors.white,
+              homeCubit.returnTitle(homeCubit.page, context),
+              style: TextStyle(
+                color: defaultColorWhite,
               ),
             ),
-            backgroundColor: const Color(0xff000236),
+            centerTitle: true,
+            backgroundColor: defaultColorNavyBlue,
             leading: Image.asset(
               'asset/images/logo-removebg.png',
             ),
-            iconTheme: const IconThemeData(
-              color: Colors.white,
+            iconTheme: IconThemeData(
+              color: defaultColorWhite,
             ),
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarColor: Color(0xff000236),
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: defaultColorNavyBlue,
               statusBarIconBrightness: Brightness.light,
             ),
           ),
@@ -47,32 +55,32 @@ class HomeScreen extends StatelessWidget {
               Icon(
                 Icons.inventory_sharp,
                 size: 30,
-                color: homeCubit.page==0 ? Colors.white : Colors.black,
+                color: homeCubit.page==0 ? defaultColorWhite : defaultColorBlack,
               ),
               Icon(
                 Icons.dataset_outlined,
                 size: 30,
-                color: homeCubit.page==1 ? Colors.white : Colors.black,
+                color: homeCubit.page==1 ? defaultColorWhite : defaultColorBlack,
               ),
               Icon(
                 Icons.dashboard,
                 size: 30,
-                color: homeCubit.page==2 ? Colors.white : Colors.black,
+                color: homeCubit.page==2 ? defaultColorWhite : defaultColorBlack,
               ),
               Icon(
                 Icons.storage,
                 size: 30,
-                color: homeCubit.page==3 ? Colors.white : Colors.black,
+                color: homeCubit.page==3 ? defaultColorWhite : defaultColorBlack,
               ),
               Icon(
                 Icons.warehouse,
                 size: 30,
-                color: homeCubit.page==4 ? Colors.white : Colors.black,
+                color: homeCubit.page==4 ? defaultColorWhite : defaultColorBlack,
               ),
             ],
-            color: Colors.white,
-            buttonBackgroundColor: const Color(0xfff7921c),
-            backgroundColor: const Color(0xff000236),
+            color: defaultColorWhite,
+            buttonBackgroundColor: defaultColorOrange,
+            backgroundColor: defaultColorNavyBlue,
             animationCurve: Curves.easeInOut,
             animationDuration: const Duration(milliseconds: 600),
             onTap: (index) {
@@ -80,7 +88,7 @@ class HomeScreen extends StatelessWidget {
             },
             letIndexChange: (index) => true,
           ),
-          body: homeCubit.screen[homeCubit.page],
+          body: homeCubit.screen(homeCubit.page,context),
         );
       },
     );

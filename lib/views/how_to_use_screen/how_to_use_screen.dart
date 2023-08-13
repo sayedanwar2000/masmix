@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:masmix/controller/cubits/home_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/components/menu.dart';
 import 'package:masmix/controller/share/function_share/functions.dart';
+import 'package:masmix/controller/share/style/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HowToUseScreen extends StatelessWidget {
   const HowToUseScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var homeCubit = HomeCubit.get(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('How To Use'),
+        title: Text(AppLocalizations.of(context)!.titleHowToUseScreen),
         centerTitle: true,
       ),
       endDrawer: defaultDrawer(context: context),
@@ -26,7 +26,6 @@ class HowToUseScreen extends StatelessWidget {
             bottom: 20.0,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -34,8 +33,8 @@ class HowToUseScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
                         borderRadius:
                             BorderRadius.circular(20.0), //<-- SEE HERE
@@ -47,12 +46,12 @@ class HowToUseScreen extends StatelessWidget {
                             height: 10.0,
                           ),
                           defaultButton(
-                            text: 'Air Services',
+                            text: AppLocalizations.of(context)!.titleAirScreen,
                             function: () {
                               functionsShare.launchInBrowser(
                                   urlPath: 'https://masmix.com/Air_Services');
                             },
-                            color: const Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                         ],
                       ),
@@ -65,8 +64,8 @@ class HowToUseScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
                         borderRadius:
                             BorderRadius.circular(20.0), //<-- SEE HERE
@@ -78,12 +77,12 @@ class HowToUseScreen extends StatelessWidget {
                             height: 10.0,
                           ),
                           defaultButton(
-                            text: 'Land Services',
+                            text: AppLocalizations.of(context)!.titleLandScreen,
                             function: () {
                               functionsShare.launchInBrowser(
                                   urlPath: 'https://masmix.com/land_Services');
                             },
-                            color: const Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                         ],
                       ),
@@ -100,8 +99,8 @@ class HowToUseScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
                         borderRadius:
                             BorderRadius.circular(20.0), //<-- SEE HERE
@@ -116,12 +115,12 @@ class HowToUseScreen extends StatelessWidget {
                             height: 10.0,
                           ),
                           defaultButton(
-                            text: 'Sea Services',
+                            text: AppLocalizations.of(context)!.titleSeaScreen,
                             function: () {
                               functionsShare.launchInBrowser(
                                   urlPath: 'https://masmix.com/sea_Services');
                             },
-                            color: const Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                         ],
                       ),
@@ -134,8 +133,8 @@ class HowToUseScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
                         borderRadius:
                             BorderRadius.circular(20.0), //<-- SEE HERE
@@ -151,13 +150,13 @@ class HowToUseScreen extends StatelessWidget {
                             height: 10.0,
                           ),
                           defaultButton(
-                            text: 'Easy2Ship Services',
+                            text: AppLocalizations.of(context)!.titleEasyScreen,
                             function: () {
                               functionsShare.launchInBrowser(
                                   urlPath:
                                       'https://masmix.com/consalidate_Services');
                             },
-                            color: const Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                         ],
                       ),
@@ -174,8 +173,8 @@ class HowToUseScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
                         borderRadius:
                             BorderRadius.circular(20.0), //<-- SEE HERE
@@ -190,14 +189,13 @@ class HowToUseScreen extends StatelessWidget {
                             height: 10.0,
                           ),
                           defaultButton(
-                            text: 'Mas4me Services',
+                            text: AppLocalizations.of(context)!.titleMasScreen,
                             function: () {
                               functionsShare.launchInBrowser(
-                                  urlPath:
-                                      'https://masmix.com/mas4me_Services',
+                                urlPath: 'https://masmix.com/mas4me_Services',
                               );
                             },
-                            color: const Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                         ],
                       ),
@@ -210,8 +208,8 @@ class HowToUseScreen extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff000236),
+                        side: BorderSide(
+                          color: defaultColorNavyBlue,
                         ),
                         borderRadius:
                             BorderRadius.circular(20.0), //<-- SEE HERE
@@ -225,13 +223,14 @@ class HowToUseScreen extends StatelessWidget {
                             height: 10.0,
                           ),
                           defaultButton(
-                            text: 'Storage Services',
+                            text: AppLocalizations.of(context)!
+                                .titleStorageScreen,
                             function: () {
                               functionsShare.launchInBrowser(
                                   urlPath:
                                       'https://masmix.com/wharehouse_Services');
                             },
-                            color: const Color(0xff000236),
+                            color: defaultColorNavyBlue,
                           ),
                         ],
                       ),

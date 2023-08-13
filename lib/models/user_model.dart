@@ -2,6 +2,8 @@
 //
 //     final userModel = userModelFromJson(jsonString);
 
+// User Model To Save Data
+
 import 'dart:convert';
 
 List<UserModel> userModelFromJson(String str) => List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
@@ -115,7 +117,7 @@ class UserModel {
     tempPassword: json[0]["temp_password"],
     companyCode: json[0]["company_code"],
     voucherCode: json[0]["voucher_code"],
-    registerDate: DateTime.parse(json[0]["register_date"]),
+    registerDate: json[0]["register_date"]== null?DateTime(2000):DateTime.parse(json[0]["register_date"]),
     userIp: json[0]["user_ip"],
     userCountryCode: json[0]["user_country_code"],
     myReferralCode: json[0]["my_referral_code"],

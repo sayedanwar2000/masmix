@@ -1,23 +1,25 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:masmix/controller/share/components/component.dart';
-import 'package:masmix/views/payment_screen/second_payment_screen.dart';
+import 'package:masmix/controller/share/style/colors.dart';
+import 'package:masmix/stripe_payment/payment_manager.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FirstPaymentScreen extends StatelessWidget {
-  const FirstPaymentScreen({Key? key}) : super(key: key);
+  String serviceName;
+  String price;
+  FirstPaymentScreen(this.price,this.serviceName, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff000236),
+      backgroundColor: defaultColorNavyBlue,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: const Color(0xff000236),
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xff000236),
-          statusBarIconBrightness: Brightness.light,
-
-
+        backgroundColor: defaultColorTransparent,
+        iconTheme: IconThemeData(
+          color: defaultColorWhite,
         ),
       ),
       body: Center(
@@ -26,21 +28,24 @@ class FirstPaymentScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 130,
-              backgroundColor: Colors.white,
+              backgroundColor: defaultColorWhite,
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      'Storage',
-                      style: TextStyle(color: Colors.grey, fontSize: 30.0),
+                      serviceName,
+                      style: TextStyle(color: defaultColorGrey, fontSize: 30.0),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Text(
-                      '\$55.00',
+                      '\$$price',
                       style: TextStyle(
-                        color: Color(0xff000236),
+                        color: defaultColorNavyBlue,
                         fontSize: 50.0,
                       ),
                     ),
@@ -49,16 +54,14 @@ class FirstPaymentScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 100.0,
+              height: 50.0,
             ),
             defaultButton(
-              text: 'Pay',
-              widt: 100.0,
-              colorText: const Color(0xff000236),
-              function: (){
-                navigateto(context,  SecondPaymentScreen());
-              },
-              color: Colors.white,
+              text: AppLocalizations.of(context)!.payButton,
+              width: 100.0,
+              colorText: defaultColorNavyBlue,
+              function: () => PaymentManager.makePayment(double.parse(price), "USD"),
+              color: defaultColorWhite,
             ),
           ],
         ),

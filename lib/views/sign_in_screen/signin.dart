@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/cubits/login_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/text_form_field.dart';
 import 'package:masmix/controller/share/network/local/cache_helper/cache.dart';
 import 'package:masmix/controller/states/login_states.dart';
+import 'package:masmix/views/forget_password_screen/forget_password_screen.dart';
 import 'package:masmix/views/sign_up_screen/first_sign_up.dart';
 import 'package:masmix/views/home_screen/home_screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../controller/share/style/colors.dart';
 
+//this class to display log in screen
 class SigninScreen extends StatelessWidget {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -91,7 +94,7 @@ class SigninScreen extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                'Welcome back',
+                                AppLocalizations.of(context)!.headerLogin,
                                 style: TextStyle(
                                   color: defaultColorWhite,
                                   fontSize: 30.0,
@@ -117,10 +120,11 @@ class SigninScreen extends StatelessWidget {
                                   type: TextInputType.text,
                                   validat: (String? value) {
                                     if (value!.isEmpty) {
-                                      return 'please enter your Username';
+                                      return AppLocalizations.of(context)!
+                                          .userNameError;
                                     }
                                   },
-                                  label: 'Username',
+                                  label: AppLocalizations.of(context)!.userName,
                                   prefix: Icons.person,
                                 ),
                                 const SizedBox(
@@ -131,10 +135,11 @@ class SigninScreen extends StatelessWidget {
                                   type: TextInputType.text,
                                   validat: (String? value) {
                                     if (value!.isEmpty) {
-                                      return 'please enter your Password address';
+                                      return AppLocalizations.of(context)!
+                                          .passwordError;
                                     }
                                   },
-                                  label: 'Password',
+                                  label: AppLocalizations.of(context)!.password,
                                   prefix: Icons.lock,
                                   isPassword: loginCubit.isPassword,
                                   suffix: loginCubit.suffix,
@@ -143,12 +148,16 @@ class SigninScreen extends StatelessWidget {
                                   },
                                 ),
                                 defaultTextButton(
-                                  function: () {},
-                                  text: 'Forgot password?',
+                                  function: () {
+                                    navigateto(context, ForgetPassword());
+                                  },
+                                  text: AppLocalizations.of(context)!
+                                      .forgetPassword,
                                 ),
                                 state is! LoginLoadingState
                                     ? defaultButton(
-                                        text: 'Log in',
+                                        text:
+                                            AppLocalizations.of(context)!.login,
                                         function: () {
                                           if (formKey.currentState!
                                               .validate()) {
@@ -157,6 +166,7 @@ class SigninScreen extends StatelessWidget {
                                                 password: password.text);
                                           }
                                         },
+                                        width: double.infinity,
                                         color: defaultColorOrange,
                                       )
                                     : Center(
@@ -170,13 +180,14 @@ class SigninScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     Expanded(child: myDivider()),
-                                    const Padding(
-                                      padding: EdgeInsetsDirectional.only(
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.only(
                                         start: 5,
                                         end: 5,
                                       ),
                                       child: Text(
-                                        'or continue with',
+                                        AppLocalizations.of(context)!
+                                            .continueWith,
                                       ),
                                     ),
                                     Expanded(
@@ -193,6 +204,9 @@ class SigninScreen extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5),
                                       child: InkWell(
+                                        onTap: (){
+                                          //todo log in with google
+                                        },
                                         child: Image.asset(
                                           'asset/images/google.png',
                                           width: 30,
@@ -204,6 +218,9 @@ class SigninScreen extends StatelessWidget {
                                       width: 20.0,
                                     ),
                                     InkWell(
+                                      onTap: (){
+                                        //todo log in with apple
+                                      },
                                       child: Image.asset(
                                         'asset/images/apple.png',
                                         width: 33,
@@ -218,13 +235,14 @@ class SigninScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text('Don\'t have an account?'),
+                                    Text(AppLocalizations.of(context)!.account),
                                     defaultTextButton(
                                       function: () {
                                         navigateto(
                                             context, FirstSignupScreen());
                                       },
-                                      text: 'Sign Up',
+                                      text:
+                                          AppLocalizations.of(context)!.signUp,
                                     ),
                                   ],
                                 ),

@@ -8,7 +8,7 @@ class Mas4meCubit extends Cubit<Mas4meStates>{
   static Mas4meCubit get(context) => BlocProvider.of(context);
 
   List mas4MeList = [];
-
+//this function to submit mas4me
   void submitMas4Me({
     required currUserId,
     required siteName,
@@ -42,7 +42,6 @@ class Mas4meCubit extends Cubit<Mas4meStates>{
       },
     ).then((value) {
       var result = value.data;
-      print(result);
       if(result[0]['validation_error_messages'] == "Success") {
         emit(Mas4meSuccessState());
       }
@@ -51,23 +50,6 @@ class Mas4meCubit extends Cubit<Mas4meStates>{
       }
     }).catchError((error) {
       emit(Mas4meErrorState(error.toString()));
-    });
-  }
-
-  void getMas4Me({
-    required currUserId,
-  }) {
-    emit(GetMas4meLoadingState());
-    DioHelper.postData(
-      url: getMas4me,
-      data: {
-        "curr_user_id": currUserId
-      },
-    ).then((value) {
-      mas4MeList = value.data;
-        emit(GetMas4meSuccessState());
-    }).catchError((error) {
-      emit(GetMas4meErrorState(error.toString()));
     });
   }
 }

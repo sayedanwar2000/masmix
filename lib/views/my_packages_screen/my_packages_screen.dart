@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/views/easy2ship_screen/easy2ship_details_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../controller/share/style/colors.dart';
 
 class MyPackagesScreen extends StatelessWidget {
   const MyPackagesScreen({Key? key}) : super(key: key);
@@ -9,17 +11,17 @@ class MyPackagesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return true
         ? ListView.separated(
-            itemBuilder: (context, index) => Padding(
+            itemBuilder: (context, index) => Directionality(textDirection: TextDirection.ltr, child: Padding(
               padding: const EdgeInsets.only(
                 right: 10.0,
                 left: 10.0,
               ),
               child: Card(
                 elevation: 10,
-                shadowColor: const Color(0xffffbd50),
+                shadowColor: defaultColorLightOrange,
                 shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                    color: Color(0xfff7921c),
+                  side: BorderSide(
+                    color: defaultColorOrange,
                   ),
                   borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                 ),
@@ -33,7 +35,7 @@ class MyPackagesScreen extends StatelessWidget {
                       Container(
                         width: 2.0,
                         height: 60,
-                        color: const Color(0xfff7921c),
+                        color: defaultColorOrange,
                       ),
                       const SizedBox(
                         width: 10.0,
@@ -67,23 +69,23 @@ class MyPackagesScreen extends StatelessWidget {
                       ),
                       const Spacer(),
                       defaultButton(
-                        text: 'Photos',
-                        widt: 100,
+                        text: AppLocalizations.of(context)!.photosButton,
+                        width: 100,
                         function: () {
                           navigateto(context, const EasyTwoShipDetailsScreen());
                         },
-                        color: const Color(0xfff7921c),
+                        color: defaultColorOrange,
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
+            ),),
             separatorBuilder: (context, index) => const SizedBox(
               height: 10,
             ),
             itemCount: 10,
           )
-        : isEmpty(name: 'packages');
+        : isEmpty(context: context);
   }
 }

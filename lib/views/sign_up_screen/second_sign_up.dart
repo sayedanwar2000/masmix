@@ -6,8 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/cubits/app_cubit.dart';
 import 'package:masmix/controller/cubits/signup_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
+import 'package:masmix/controller/share/components/text_form_field.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/controller/states/signup_states.dart';
 import 'package:masmix/views/sign_in_screen/signin.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SecondSignupScreen extends StatelessWidget {
   TextEditingController password = TextEditingController();
@@ -25,7 +28,6 @@ class SecondSignupScreen extends StatelessWidget {
   dynamic cityKey;
   dynamic currencyKey;
 
-
   SecondSignupScreen({super.key});
 
   @override
@@ -40,15 +42,14 @@ class SecondSignupScreen extends StatelessWidget {
     var formkey = GlobalKey<FormState>();
     return BlocConsumer<SignupCubit, SignupStates>(
       listener: (context, state) {
-        if(state is SignupSuccessState){
+        if (state is SignupSuccessState) {
           final snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: 'Oh Hey!!',
-              message:
-              '${signupCubit.State}',
+              message: '${signupCubit.State}',
               contentType: ContentType.success,
               // to configure for material banner
               inMaterialBanner: true,
@@ -58,17 +59,14 @@ class SecondSignupScreen extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(snackBar);
           navigateAndFinish(context, SigninScreen());
-        }
-        else if(state is SignupErrorState){
+        } else if (state is SignupErrorState) {
           final snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: 'Error!',
-              message:
-              '${signupCubit.State}!',
-
+              message: '${signupCubit.State}!',
               contentType: ContentType.failure,
             ),
           );
@@ -78,7 +76,8 @@ class SecondSignupScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        signupCubit.accountType = signupCubit.accountType ?? appCubit.accountTypeList[0];
+        signupCubit.accountType =
+            signupCubit.accountType ?? appCubit.accountTypeList[0];
         accountTypeKey = appCubit.getAccountTypKey(appCubit.accountTypeList[0]);
         signupCubit.language = signupCubit.language ?? appCubit.languageList[0];
         languageKey = appCubit.getLanguageKey(appCubit.languageList[0]);
@@ -103,7 +102,7 @@ class SecondSignupScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Account Info:'),
+                        Text(AppLocalizations.of(context)!.accountInfo),
                         const SizedBox(
                           height: 20.0,
                         ),
@@ -115,13 +114,14 @@ class SecondSignupScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultField(
-                                label: 'FIRST NAME',
+                                label: AppLocalizations.of(context)!.firstName,
                                 widget: defaultTextFormField(
                                   controll: firstName,
                                   type: TextInputType.text,
                                   validat: (String? value) {
                                     if (value!.isEmpty) {
-                                      return 'First Name must not be empty';
+                                      return AppLocalizations.of(context)!
+                                          .firstNameError;
                                     }
                                     return null;
                                   },
@@ -133,13 +133,14 @@ class SecondSignupScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: defaultField(
-                                label: 'LAST NAME',
+                                label: AppLocalizations.of(context)!.lastName,
                                 widget: defaultTextFormField(
                                   controll: lastName,
                                   type: TextInputType.text,
                                   validat: (String? value) {
                                     if (value!.isEmpty) {
-                                      return 'Last Name must not be empty';
+                                      return AppLocalizations.of(context)!
+                                          .lastNameError;
                                     }
                                     return null;
                                   },
@@ -155,7 +156,8 @@ class SecondSignupScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultField(
-                                label: 'Country Code',
+                                label:
+                                    AppLocalizations.of(context)!.countryCode,
                                 widget: defaultDropdownSearch(
                                   items: appCubit.countryCodeList,
                                   onChang: (value) {
@@ -171,13 +173,14 @@ class SecondSignupScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: defaultField(
-                                label: 'PHONE NO.',
+                                label: AppLocalizations.of(context)!.phoneNo,
                                 widget: defaultTextFormField(
                                   controll: phone,
                                   type: TextInputType.phone,
                                   validat: (String? value) {
                                     if (value!.isEmpty) {
-                                      return 'phone must not be empty';
+                                      return AppLocalizations.of(context)!
+                                          .phoneError;
                                     }
                                     return null;
                                   },
@@ -190,13 +193,13 @@ class SecondSignupScreen extends StatelessWidget {
                           height: 20.0,
                         ),
                         defaultField(
-                          label: 'Email address',
+                          label: AppLocalizations.of(context)!.email,
                           widget: defaultTextFormField(
                             controll: email,
                             type: TextInputType.emailAddress,
                             validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'E-mail must not be empty';
+                                return AppLocalizations.of(context)!.emailError;
                               }
                               return null;
                             },
@@ -206,13 +209,14 @@ class SecondSignupScreen extends StatelessWidget {
                           height: 20.0,
                         ),
                         defaultField(
-                          label: 'Password',
+                          label: AppLocalizations.of(context)!.password,
                           widget: defaultTextFormField(
                             controll: password,
                             type: TextInputType.visiblePassword,
                             validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'password must not be empty';
+                                return AppLocalizations.of(context)!
+                                    .passwordError;
                               }
                               return null;
                             },
@@ -227,16 +231,18 @@ class SecondSignupScreen extends StatelessWidget {
                           height: 20.0,
                         ),
                         defaultField(
-                          label: 'Confirm Password',
+                          label: AppLocalizations.of(context)!.confirmPassword,
                           widget: defaultTextFormField(
                             controll: confirmPassword,
                             type: TextInputType.visiblePassword,
                             validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Confirm Password must not be empty';
+                                return AppLocalizations.of(context)!
+                                    .confirmPasswordError;
                               }
                               if (password.text != confirmPassword.text) {
-                                return 'Password must be matching';
+                                return AppLocalizations.of(context)!
+                                    .passwordError2;
                               }
                               return null;
                             },
@@ -254,13 +260,15 @@ class SecondSignupScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultField(
-                                label: 'Account type',
+                                label:
+                                    AppLocalizations.of(context)!.accountType,
                                 widget: defaultDropdownSearch(
                                   items: appCubit.accountTypeList,
                                   height: 100,
                                   onChang: (value) {
                                     signupCubit.accountType = value;
-                                    accountTypeKey = appCubit.getAccountTypKey(value);
+                                    accountTypeKey =
+                                        appCubit.getAccountTypKey(value);
                                   },
                                 ),
                               ),
@@ -270,13 +278,14 @@ class SecondSignupScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: defaultField(
-                                label: 'Language',
+                                label: AppLocalizations.of(context)!.language,
                                 widget: defaultDropdownSearch(
                                   items: appCubit.languageList,
                                   height: 100,
                                   onChang: (value) {
                                     signupCubit.language = value;
-                                    languageKey = appCubit.getLanguageKey(value);
+                                    languageKey =
+                                        appCubit.getLanguageKey(value);
                                   },
                                 ),
                               ),
@@ -286,27 +295,29 @@ class SecondSignupScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20.0,
                         ),
-                        Row(
-                          children: [
-                            const Spacer(),
-                            defaultButton(
-                              text: 'Next',
-                              widt: 100,
-                              function: () {
-                                print(signupCubit.accountType);
-                                print(signupCubit.language);
-                                if (formKey.currentState!.validate()) {
-                                  signupCubit.password = password;
-                                  signupCubit.confirmPassword = confirmPassword;
-                                  page.animateToPage(++signupCubit.pageIndex,
-                                      duration:
-                                          const Duration(milliseconds: 400),
-                                      curve: Curves.linearToEaseOut);
-                                }
-                              },
-                              color: const Color(0xfff7921c),
-                            ),
-                          ],
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              defaultButton(
+                                text: AppLocalizations.of(context)!.nextButton,
+                                width: 100,
+                                function: () {
+                                  if (formKey.currentState!.validate()) {
+                                    signupCubit.password = password;
+                                    signupCubit.confirmPassword =
+                                        confirmPassword;
+                                    page.animateToPage(++signupCubit.pageIndex,
+                                        duration:
+                                            const Duration(milliseconds: 400),
+                                        curve: Curves.linearToEaseOut);
+                                  }
+                                },
+                                color: defaultColorOrange,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -321,7 +332,7 @@ class SecondSignupScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Address Info:'),
+                        Text(AppLocalizations.of(context)!.addressInfo),
                         const SizedBox(
                           height: 20.0,
                         ),
@@ -333,7 +344,7 @@ class SecondSignupScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultField(
-                                label: 'Country',
+                                label: AppLocalizations.of(context)!.country,
                                 widget: defaultDropdownSearch(
                                   items: appCubit.countryList,
                                   onChang: (value) {
@@ -350,7 +361,7 @@ class SecondSignupScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: defaultField(
-                                label: 'State',
+                                label: AppLocalizations.of(context)!.state,
                                 widget: defaultTextFormField(
                                   controll: State,
                                   type: TextInputType.text,
@@ -366,7 +377,7 @@ class SecondSignupScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultField(
-                                label: 'City',
+                                label: AppLocalizations.of(context)!.city,
                                 widget: defaultDropdownSearch(
                                   items: appCubit.city,
                                   onChang: (value) {
@@ -383,7 +394,7 @@ class SecondSignupScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: defaultField(
-                                label: 'Postal Code/ZIP',
+                                label: AppLocalizations.of(context)!.zip,
                                 widget: defaultTextFormField(
                                   controll: postalCode,
                                   type: TextInputType.number,
@@ -396,13 +407,14 @@ class SecondSignupScreen extends StatelessWidget {
                           height: 20.0,
                         ),
                         defaultField(
-                          label: 'Address',
+                          label: AppLocalizations.of(context)!.address,
                           widget: defaultTextFormField(
                             controll: address,
                             type: TextInputType.text,
                             validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Address must not be empty';
+                                return AppLocalizations.of(context)!
+                                    .addressError;
                               }
                               return null;
                             },
@@ -419,13 +431,14 @@ class SecondSignupScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultField(
-                                label: 'Currency',
+                                label: AppLocalizations.of(context)!.currency,
                                 widget: defaultDropdownSearch(
                                   height: 160,
                                   items: appCubit.currencyList,
                                   onChang: (value) {
                                     signupCubit.currency = value;
-                                    currencyKey = appCubit.getCurrencyKey(value);
+                                    currencyKey =
+                                        appCubit.getCurrencyKey(value);
                                   },
                                 ),
                               ),
@@ -435,7 +448,8 @@ class SecondSignupScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: defaultField(
-                                label: 'Referral Code',
+                                label: AppLocalizations.of(context)!
+                                    .titleReferralCodeScreen,
                                 widget: defaultTextFormField(
                                   controll: referralCode,
                                   type: TextInputType.text,
@@ -451,7 +465,8 @@ class SecondSignupScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultField(
-                                label: 'Company Code',
+                                label:
+                                    AppLocalizations.of(context)!.companyCode,
                                 widget: defaultTextFormField(
                                   controll: companyCode,
                                   type: TextInputType.text,
@@ -463,7 +478,8 @@ class SecondSignupScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: defaultField(
-                                label: 'Voucher Code',
+                                label:
+                                    AppLocalizations.of(context)!.voucherCode,
                                 widget: defaultTextFormField(
                                   controll: voucherCode,
                                   type: TextInputType.text,
@@ -475,52 +491,58 @@ class SecondSignupScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20.0,
                         ),
-                        Row(
-                          children: [
-                            defaultButton(
-                              text: 'Back',
-                              widt: 100,
-                              function: () {
-                                page.animateToPage(--signupCubit.pageIndex,
-                                    duration: const Duration(milliseconds: 400),
-                                    curve: Curves.linearToEaseOut);
-                              },
-                              color: const Color(0xfff7921c),
-                            ),
-                            const Spacer(),
-                            defaultButton(
-                              text: 'Register',
-                              widt: 100,
-                              function: () {
-                                if (formkey.currentState!.validate()) {
-                                  signupCubit.userSigup(
-                                    email: email.text,
-                                    password: password.text,
-                                    IPAddress: appCubit.ipAddress,
-                                    country_code: '',
-                                    account_type: accountTypeKey,
-                                    account_type_name: signupCubit.accountType,
-                                    default_language: languageKey,
-                                    referral_code: referralCode.text,
-                                    f_name: firstName.text,
-                                    l_name: lastName.text,
-                                    mob: phone.text,
-                                    phone_country_code: signupCubit.countryCode,
-                                    invoice_address: address.text,
-                                    invoice_country_code: countryKey,
-                                    invoice_state_code: State.text,
-                                    invoice_city_code: cityKey,
-                                    invoice_zip_postal_code: postalCode.text,
-                                    currency: currencyKey,
-                                    voucher_code: companyCode.text,
-                                    company_code: voucherCode.text,
-                                  );
-
-                                }
-                              },
-                              color: const Color(0xfff7921c),
-                            ),
-                          ],
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Row(
+                            children: [
+                              defaultButton(
+                                text: AppLocalizations.of(context)!.backButton,
+                                width: 100,
+                                function: () {
+                                  page.animateToPage(--signupCubit.pageIndex,
+                                      duration:
+                                          const Duration(milliseconds: 400),
+                                      curve: Curves.linearToEaseOut);
+                                },
+                                color: defaultColorOrange,
+                              ),
+                              const Spacer(),
+                              defaultButton(
+                                text: AppLocalizations.of(context)!
+                                    .registerButton,
+                                width: 100,
+                                function: () {
+                                  if (formkey.currentState!.validate()) {
+                                    signupCubit.userSigup(
+                                      email: email.text,
+                                      password: password.text,
+                                      IPAddress: appCubit.ipAddress,
+                                      country_code: '',
+                                      account_type: accountTypeKey,
+                                      account_type_name:
+                                          signupCubit.accountType,
+                                      default_language: languageKey,
+                                      referral_code: referralCode.text,
+                                      f_name: firstName.text,
+                                      l_name: lastName.text,
+                                      mob: phone.text,
+                                      phone_country_code:
+                                          signupCubit.countryCode,
+                                      invoice_address: address.text,
+                                      invoice_country_code: countryKey,
+                                      invoice_state_code: State.text,
+                                      invoice_city_code: cityKey,
+                                      invoice_zip_postal_code: postalCode.text,
+                                      currency: currencyKey,
+                                      voucher_code: companyCode.text,
+                                      company_code: voucherCode.text,
+                                    );
+                                  }
+                                },
+                                color: defaultColorOrange,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

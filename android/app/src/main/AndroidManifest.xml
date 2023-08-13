@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.masmix">
+    <uses-permission android:name="android.permissionn.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permissionn.READ_EXTERNAL_STORAGE"/>
    <application
         android:label="masmix"
         android:name="${applicationName}"

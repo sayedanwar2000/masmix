@@ -4,6 +4,8 @@ class AppInitialState extends AppStates {}
 
 class CityChangeState extends AppStates {}
 
+class AppLanguageChangeState extends AppStates {}
+
 class CurrencyLoadingState extends AppStates {}
 
 class CurrencySuccessState extends AppStates {}

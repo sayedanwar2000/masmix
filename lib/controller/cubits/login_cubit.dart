@@ -8,10 +8,11 @@ import 'package:masmix/models/user_model.dart';
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
   static LoginCubit get(context) => BlocProvider.of(context);
-  IconData suffix = Icons.visibility_outlined;
+  IconData suffix = Icons.visibility;
   bool isPassword = true;
   late UserModel loginModel;
 
+  //this function to log in
   void userLogin({
     required String email,
     required String password,
@@ -24,6 +25,7 @@ class LoginCubit extends Cubit<LoginStates> {
         'password' : password,
       },
     ).then((value) {
+      print(value.data);
       if(value.data.runtimeType == String) {
         emit(LoginErrorState(value.data));
       } else {
@@ -36,6 +38,7 @@ class LoginCubit extends Cubit<LoginStates> {
     });
   }
 
+  //this function to change icon password and change see or not see password
   void changePasswordVisibility(){
     isPassword = !isPassword;
     suffix = isPassword ? Icons.visibility : Icons.visibility_off;

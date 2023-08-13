@@ -7,9 +7,11 @@ import 'package:masmix/controller/cubits/login_cubit.dart';
 import 'package:masmix/controller/cubits/mas4me_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/components/menu.dart';
+import 'package:masmix/controller/share/components/text_form_field.dart';
 import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/controller/states/mas4me_statets.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+//this class display mas4me screen
 class SubmitMas4MeScreen extends StatelessWidget {
   TextEditingController SiteName = TextEditingController();
   TextEditingController SiteURL = TextEditingController();
@@ -31,13 +33,10 @@ class SubmitMas4MeScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              'Buy Products',
+              AppLocalizations.of(context)!.titleMasScreen,
               style: TextStyle(color: defaultColorBlack),
             ),
             centerTitle: true,
-            leading: Image.asset(
-              'asset/images/logo.png',
-            ),
           ),
           endDrawer: defaultDrawer(context: context),
           body: SingleChildScrollView(
@@ -51,9 +50,9 @@ class SubmitMas4MeScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20.0,
                     ),
-                    const Text(
-                      'WHERE WOULD YOU LIKE US TO PURCHASE FROM ?',
-                      style: TextStyle(fontSize: 13.0),
+                    Text(
+                      AppLocalizations.of(context)!.mas4meDescription,
+                      style: const TextStyle(fontSize: 13.0),
                     ),
                     const SizedBox(
                       height: 20.0,
@@ -68,10 +67,11 @@ class SubmitMas4MeScreen extends StatelessWidget {
                           child: defaultTextFormField(
                             controll: SiteName,
                             type: TextInputType.text,
-                            label: 'Site Name',
-                            validat: (String? value){
+                            label: AppLocalizations.of(context)!.siteName,
+                            validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Site name must be not null';
+                                return AppLocalizations.of(context)!
+                                    .siteNameError;
                               }
                             },
                           ),
@@ -83,11 +83,12 @@ class SubmitMas4MeScreen extends StatelessWidget {
                           child: defaultTextFormField(
                             controll: SiteURL,
                             type: TextInputType.text,
-                            label: 'Site URL',
+                            label: AppLocalizations.of(context)!.siteURL,
                             prefix: Icons.link,
-                            validat: (String? value){
+                            validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Site URL must be not null';
+                                return AppLocalizations.of(context)!
+                                    .siteURLError;
                               }
                             },
                           ),
@@ -97,10 +98,10 @@ class SubmitMas4MeScreen extends StatelessWidget {
                     const SizedBox(
                       height: 40.0,
                     ),
-                    const Text(
-                      'PLEASE LET US KNOW WHAT ITEM(S) YOU\'D LIKE US TO PURCHASE',
+                    Text(
+                      AppLocalizations.of(context)!.mas4meDescription2,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 13.0),
+                      style: const TextStyle(fontSize: 13.0),
                     ),
                     const SizedBox(
                       height: 20.0,
@@ -115,10 +116,11 @@ class SubmitMas4MeScreen extends StatelessWidget {
                           child: defaultTextFormField(
                             controll: ItemName,
                             type: TextInputType.text,
-                            label: 'Item Name',
-                            validat: (String? value){
+                            label: AppLocalizations.of(context)!.itemName,
+                            validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Item Name must be not null';
+                                return AppLocalizations.of(context)!
+                                    .itemNameError;
                               }
                             },
                           ),
@@ -130,11 +132,12 @@ class SubmitMas4MeScreen extends StatelessWidget {
                           child: defaultTextFormField(
                             controll: ItemURL,
                             type: TextInputType.text,
-                            label: 'Item URL',
+                            label: AppLocalizations.of(context)!.itemURL,
                             prefix: Icons.link,
-                            validat: (String? value){
+                            validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Item URL must be not null';
+                                return AppLocalizations.of(context)!
+                                    .itemURLError;
                               }
                             },
                           ),
@@ -150,10 +153,11 @@ class SubmitMas4MeScreen extends StatelessWidget {
                           child: defaultTextFormField(
                             controll: Options,
                             type: TextInputType.text,
-                            label: 'Options (Size,Color..etc)',
-                            validat: (String? value){
+                            label: AppLocalizations.of(context)!.options,
+                            validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Options must be not null';
+                                return AppLocalizations.of(context)!
+                                    .optionsError;
                               }
                             },
                           ),
@@ -165,11 +169,11 @@ class SubmitMas4MeScreen extends StatelessWidget {
                           child: defaultTextFormField(
                             controll: Price,
                             type: TextInputType.number,
-                            label: 'Price (per piece)',
+                            label: AppLocalizations.of(context)!.price,
                             prefix: Icons.payments,
-                            validat: (String? value){
+                            validat: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Price must be not null';
+                                return AppLocalizations.of(context)!.priceError;
                               }
                             },
                           ),
@@ -184,10 +188,10 @@ class SubmitMas4MeScreen extends StatelessWidget {
                       child: defaultTextFormField(
                         controll: Quantity,
                         type: TextInputType.number,
-                        label: 'Quantity',
-                        validat: (String? value){
+                        label: AppLocalizations.of(context)!.quantity,
+                        validat: (String? value) {
                           if (value!.isEmpty) {
-                            return 'Quantity must be not null';
+                            return AppLocalizations.of(context)!.quantity;
                           }
                         },
                       ),
@@ -197,9 +201,10 @@ class SubmitMas4MeScreen extends StatelessWidget {
                     ),
                     Row(
                       children: [
+                        //this button to clear text form filed to add new item
                         defaultButton(
-                          text: 'Add Another Item',
-                          widt: 200,
+                          text: AppLocalizations.of(context)!.addAnotherItem,
+                          width: 200,
                           function: () {
                             SiteName.text = '';
                             SiteURL.text = '';
@@ -208,14 +213,14 @@ class SubmitMas4MeScreen extends StatelessWidget {
                             Options.text = '';
                             Price.text = '';
                             Quantity.text = '';
-                            mas4meCubit.getMas4Me(currUserId: 55);
                           },
                           color: defaultColorNavyBlue,
                         ),
                         const Spacer(),
+                        //this button to submit mas4me
                         defaultButton(
-                          text: 'Submit',
-                          widt: 100,
+                          text: AppLocalizations.of(context)!.submitButton,
+                          width: 100,
                           function: () {
                             if (formKey.currentState!.validate()) {
                               mas4meCubit.submitMas4Me(
@@ -253,8 +258,8 @@ class SubmitMas4MeScreen extends StatelessWidget {
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
-              title: 'Oh Hey!!',
-              message: 'Item Add Done',
+              title: AppLocalizations.of(context)!.success,
+              message: AppLocalizations.of(context)!.mas4MeMessageSuccess,
               contentType: ContentType.success,
               // to configure for material banner
               inMaterialBanner: true,
@@ -263,16 +268,15 @@ class SubmitMas4MeScreen extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackBar);
-          mas4meCubit.getMas4Me(currUserId: loginCubit.loginModel.id);
         }
-        if (state is Mas4meErrorState){
+        if (state is Mas4meErrorState) {
           final snackBar = SnackBar(
             elevation: 0,
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
-              title: 'ُError!',
-              message: 'Please Enter correct data',
+              title: AppLocalizations.of(context)!.error,
+              message: AppLocalizations.of(context)!.mas4MeMessageError,
               contentType: ContentType.failure,
             ),
           );

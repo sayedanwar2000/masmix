@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unnecessary_new, prefer_typing_uninitialized_variables, prefer_typing_uninitialized_variables
+// ignore_for_file: non_constant_identifier_names, unnecessary_new, prefer_typing_uninitialized_variables,
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +30,7 @@ class SignupCubit extends Cubit<SignupStates> {
   TextEditingController confirmPassword = TextEditingController();
   int pageIndex = 0;
 
+//this function to user Sign up
   void userSigup({
     required var email,
     required var password,
@@ -89,24 +90,24 @@ class SignupCubit extends Cubit<SignupStates> {
       emit(SignupErrorState(error.toString()));
     });
   }
-
+//this function to change icon and see or not see password for Password Visibility
   void changePasswordVisibility() {
     isPassword = !isPassword;
     suffix = isPassword ? Icons.visibility : Icons.visibility_off;
     emit(ChangePasswordVisbilitySignupState());
   }
-
+//this function to change icon and see or not see password for Password Confirm Visibility
   void changePasswordConfirmVisibility() {
     isPasswordConfirm = !isPasswordConfirm;
     confirmSuffix = isPasswordConfirm ? Icons.visibility : Icons.visibility_off;
     emit(ChangePasswordConfirmVisbilitySignupState());
   }
-
+//this function to change Check box
   void changeCheckbox(bool value) {
     checkbox = value;
     emit(ChangeCheckboxState());
   }
-
+//this function to change Country Code
   void changeCountryCode(var value) {
     countryCode = value;
     emit(SignupChangeCountryCodeState());

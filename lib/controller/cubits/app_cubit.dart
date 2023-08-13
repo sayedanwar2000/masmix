@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, invalid_return_type_for_catch_error, null_check_always_fails, non_constant_identifier_names
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masmix/controller/share/network/endpointer.dart';
+import 'package:masmix/controller/share/network/local/cache_helper/cache.dart';
 import 'package:masmix/controller/share/network/remote/dio_helper.dart';
 import 'package:masmix/controller/states/app_states.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +18,7 @@ class AppCubit extends Cubit<AppStates> {
   List<String> city = [];
   List<String>? getCity = [];
   var ipAddress;
+  var appLanguage = CacheHelper.getData(key: 'language') ?? 'en';
   var currencyIdList = <int, String>{};
   var languageIdList = <int, String>{};
   var accountTypeIdList = <int, String>{};
@@ -25,6 +27,7 @@ class AppCubit extends Cubit<AppStates> {
   var cityIdList = <int, String>{};
   var cityList = <int, List<String>>{};
 
+  //this function to get Currencys
   void getCurrencys() {
     emit(CurrencyLoadingState());
     if (currencyList.isEmpty) {
@@ -47,7 +50,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(CurrencySuccessState());
     }
   }
-
+//this function to get Language
   void getLanguage() {
     emit(LanguageLoadingState());
     if (languageList.isEmpty) {
@@ -70,7 +73,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(LanguageSuccessState());
     }
   }
-
+//this function to get Account Type
   void getAccountType() {
     emit(AccountTypeLoadingState());
     if (accountTypeList.isEmpty) {
@@ -93,7 +96,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(AccountTypeSuccessState());
     }
   }
-
+//this function to get Country
   void getCountry() {
     emit(CountryLoadingState());
     if (countryList.isEmpty) {
@@ -134,7 +137,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(CountrySuccessState());
     }
   }
-
+//this function to get Country Code
   void getCountryCode() {
     emit(CountryCodeLoadingState());
     if (countryCodeList.isEmpty) {
@@ -153,62 +156,62 @@ class AppCubit extends Cubit<AppStates> {
       emit(CountrySuccessState());
     }
   }
-
+//this function to get Country Key
   int getCountryKey(var value) {
     var countryKey = countryIdList.keys
-        .firstWhere((k) => countryIdList[k] == value, orElse: () => 1);
+        .firstWhere((k) => countryIdList[k] == value, orElse: () => 0);
     return countryKey;
   }
-
+//this function to get Account Type Key
   int getAccountTypKey(var value) {
     var accountTypeKey = accountTypeIdList.keys
         .firstWhere((k) => accountTypeIdList[k] == value, orElse: () => 1);
     return accountTypeKey;
   }
-
+//this function to get Language Key
   int getLanguageKey(var value) {
     var languageKey = languageIdList.keys
         .firstWhere((k) => languageIdList[k] == value, orElse: () => 1);
     return languageKey;
   }
-
+//this function to get City Key
   int getCityKey(var value) {
     var cityKey = cityIdList.keys
         .firstWhere((k) => cityIdList[k] == value, orElse: () => 1);
     return cityKey;
   }
-
+//this function to get Currency Key
   int getCurrencyKey(var value) {
     var currencyKey = currencyIdList.keys
         .firstWhere((k) => currencyIdList[k] == value, orElse: () => 1);
     return currencyKey;
   }
-
+//this function to get City Value
   getCityValue(var value) {
     var cityKey = cityIdList[value];
     return cityKey;
   }
-
+//this function to get Account Type Value
   getAccountTypValue(var value) {
     var accountTypeKey = accountTypeIdList[value];
     return accountTypeKey;
   }
-
+//this function to get Country Value
   getCountryValue(var value) {
     var countryKey = countryIdList[value];
     return countryKey;
   }
-
+//this function to get Currency Value
   getCurrencyValue(var value) {
     var currencyKey = currencyIdList[value];
     return currencyKey;
   }
-
+//this function to get Language Value
   getLanguageValue(var value) {
     var languageKey = languageIdList[value];
     return languageKey;
   }
-
+//this function to get IP Address user
   Future<void> getIPAddress() async {
     emit(GetIPLoadingState());
     try {
@@ -220,16 +223,19 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetIPErrorState(error.toString()));
     }
   }
-
+//this function to change City
   void changeCity({var country}) {
     if (country == null) {
       int key = getCountryKey(country);
       getCity = cityList[key];
     } else {
       getCity = city;
-      print('1111');
-      print(getCity);
     }
     emit(CityChangeState());
+  }
+//this function to change App Language
+  void changeAppLanguage(value) {
+    appLanguage = value;
+    emit(AppLanguageChangeState());
   }
 }

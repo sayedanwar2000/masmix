@@ -1,17 +1,20 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:masmix/controller/cubits/login_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/network/local/cache_helper/cache.dart';
+import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/controller/states/login_states.dart';
 import 'package:masmix/views/home_screen/home_screen.dart';
 import 'package:masmix/views/sign_in_screen/signin.dart';
 import 'package:masmix/views/sign_up_screen/first_sign_up.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+//this class to check if user log in before
+// if user is log in navigate to home screen
+// else navigate to Welcome screen
 class ShowScreen extends StatelessWidget {
   String username = CacheHelper.getData(key: 'username') ?? '';
   String password = CacheHelper.getData(key: 'password') ?? '';
@@ -20,8 +23,6 @@ class ShowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(username);
-    print(password);
     return BlocConsumer<LoginCubit, LoginStates>(
       builder: (context, state) {
         if (username.isEmpty || password.isEmpty) {
@@ -49,6 +50,7 @@ class ShowScreen extends StatelessWidget {
   }
 }
 
+//This Class Display First Screen When you open the app
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -79,21 +81,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: 10,
                 ),
                 defaultButton(
-                  text: 'Log in',
+                  width: double.infinity,
+                  text: AppLocalizations.of(context)!.login,
                   function: () {
                     navigateto(context, SigninScreen());
                   },
-                  color: const Color(0xfff7921c),
+                  color: defaultColorOrange,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 defaultButton(
-                  text: 'Register ',
+                  width: double.infinity,
+                  text: AppLocalizations.of(context)!.registerButton,
                   function: () {
                     navigateto(context, FirstSignupScreen());
                   },
-                  color: const Color(0xfff7921c),
+                  color: defaultColorOrange,
                 ),
               ],
             ),
