@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:masmix/controller/cubits/login_cubit.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/stripe_payment/payment_manager.dart';
@@ -13,6 +14,7 @@ class FirstPaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userData = LoginCubit.get(context).loginModel;
     return Scaffold(
       backgroundColor: defaultColorNavyBlue,
       appBar: AppBar(
@@ -60,7 +62,7 @@ class FirstPaymentScreen extends StatelessWidget {
               text: AppLocalizations.of(context)!.payButton,
               width: 100.0,
               colorText: defaultColorNavyBlue,
-              function: () => PaymentManager.makePayment(double.parse(price), "USD"),
+              function: () => PaymentManager.makePayment(double.parse(price), "${userData.currencyName}" ,userData.userUname!),
               color: defaultColorWhite,
             ),
           ],

@@ -32,7 +32,8 @@ class FirstSignupScreen extends StatelessWidget {
       builder: (context, state) {
         var signupCubit = SignupCubit.get(context);
         var appCubit = AppCubit.get(context);
-        signupCubit.countryCode = signupCubit.countryCode ?? appCubit.countryCodeList[0];
+        signupCubit.countryCode =
+            signupCubit.countryCode ?? appCubit.countryCodeList[0];
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.only(
@@ -95,10 +96,12 @@ class FirstSignupScreen extends StatelessWidget {
                                         type: TextInputType.text,
                                         validat: (String? value) {
                                           if (value!.isEmpty) {
-                                            return AppLocalizations.of(context)!.firstNameError;
+                                            return AppLocalizations.of(context)!
+                                                .firstNameError;
                                           }
                                         },
-                                        label: AppLocalizations.of(context)!.firstName,
+                                        label: AppLocalizations.of(context)!
+                                            .firstName,
                                       ),
                                     ),
                                     const SizedBox(
@@ -110,10 +113,12 @@ class FirstSignupScreen extends StatelessWidget {
                                         type: TextInputType.text,
                                         validat: (String? value) {
                                           if (value!.isEmpty) {
-                                            return AppLocalizations.of(context)!.lastNameError;
+                                            return AppLocalizations.of(context)!
+                                                .lastNameError;
                                           }
                                         },
-                                        label: AppLocalizations.of(context)!.lastName,
+                                        label: AppLocalizations.of(context)!
+                                            .lastName,
                                       ),
                                     ),
                                   ],
@@ -126,7 +131,8 @@ class FirstSignupScreen extends StatelessWidget {
                                   type: TextInputType.emailAddress,
                                   validat: (String? value) {
                                     if (value!.isEmpty) {
-                                      return AppLocalizations.of(context)!.emailError;
+                                      return AppLocalizations.of(context)!
+                                          .emailError;
                                     }
                                   },
                                   label: AppLocalizations.of(context)!.email,
@@ -155,10 +161,12 @@ class FirstSignupScreen extends StatelessWidget {
                                         type: TextInputType.phone,
                                         validat: (String? value) {
                                           if (value!.isEmpty) {
-                                            return AppLocalizations.of(context)!.phoneError;
+                                            return AppLocalizations.of(context)!
+                                                .phoneError;
                                           }
                                         },
-                                        label: AppLocalizations.of(context)!.phone,
+                                        label:
+                                            AppLocalizations.of(context)!.phone,
                                         prefix: Icons.phone,
                                       ),
                                     ),
@@ -183,15 +191,18 @@ class FirstSignupScreen extends StatelessWidget {
                                         Row(
                                           children: [
                                             Text(
-                                              AppLocalizations.of(context)!.masMix,
+                                              AppLocalizations.of(context)!
+                                                  .masMix,
                                             ),
                                             InkWell(
                                               onTap: () {
                                                 functionsShare.launchInBrowser(
-                                                    launchTo: 1);
+                                                  launchTo: 1,
+                                                );
                                               },
                                               child: Text(
-                                                AppLocalizations.of(context)!.privacyPolicy,
+                                                AppLocalizations.of(context)!
+                                                    .privacyPolicy,
                                                 style: TextStyle(
                                                     color: defaultColorBlue,
                                                     fontWeight:
@@ -211,8 +222,9 @@ class FirstSignupScreen extends StatelessWidget {
                                                   launchTo: 2,
                                                 );
                                               },
-                                              child:  Text(
-                                                AppLocalizations.of(context)!.terms,
+                                              child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .terms,
                                                 style: TextStyle(
                                                   color: defaultColorBlue,
                                                   fontWeight: FontWeight.w500,
@@ -226,6 +238,7 @@ class FirstSignupScreen extends StatelessWidget {
                                   ],
                                 ),
                                 defaultButton(
+                                  width: double.infinity,
                                   text: AppLocalizations.of(context)!.register,
                                   function: () {
                                     if (formKey.currentState!.validate()) {
@@ -241,7 +254,7 @@ class FirstSignupScreen extends StatelessWidget {
                                           content: AwesomeSnackbarContent(
                                             title: 'Error!',
                                             message:
-                                            'You must agree to our terms!',
+                                                'You must agree to our terms!',
                                             contentType: ContentType.failure,
                                           ),
                                         );
@@ -249,7 +262,8 @@ class FirstSignupScreen extends StatelessWidget {
                                           ..hideCurrentSnackBar()
                                           ..showSnackBar(snackBar);
                                       } else {
-                                        navigateAndFinish(context, SecondSignupScreen());
+                                        navigateAndFinish(
+                                            context, SecondSignupScreen());
                                       }
                                     }
                                   },
@@ -267,7 +281,8 @@ class FirstSignupScreen extends StatelessWidget {
                                         end: 5,
                                       ),
                                       child: Text(
-                                        AppLocalizations.of(context)!.continueWith,
+                                        AppLocalizations.of(context)!
+                                            .continueWith,
                                       ),
                                     ),
                                     Expanded(
@@ -309,7 +324,8 @@ class FirstSignupScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(AppLocalizations.of(context)!.account1),
+                                    Text(
+                                        AppLocalizations.of(context)!.account1),
                                     defaultTextButton(
                                       function: () {
                                         navigateto(context, SigninScreen());

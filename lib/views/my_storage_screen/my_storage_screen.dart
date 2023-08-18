@@ -24,14 +24,14 @@ class MyStorageScreen extends StatelessWidget {
                     isShow: homeCubit.isShowStorage[index],
                     functionBack: () {
                       homeCubit.changeIsShow(
-                        value: true,
+                        value: false,
                         index: index,
                         type: 1,
                       );
                     },
                     functionDetails: () {
                       homeCubit.changeIsShow(
-                        value: false,
+                        value: true,
                         index: index,
                         type: 1,
                       );

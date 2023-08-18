@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:masmix/controller/share/components/alert_dialog.dart';
 import 'package:masmix/controller/share/components/component.dart';
 import 'package:masmix/controller/share/style/colors.dart';
 import 'package:masmix/views/my_quotation_pending_screen/my_quotation_pending_screen.dart';
@@ -36,7 +37,10 @@ class MyQuotationScreen extends StatelessWidget {
                         children: [
                           const Spacer(),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => alertDialog(
+                              context: context,
+                              title: 'Pending Booking',
+                            ),
                             icon: Icon(
                               Icons.help_outline,
                               color: defaultColorNavyBlue,
@@ -49,6 +53,7 @@ class MyQuotationScreen extends StatelessWidget {
                         height: 10.0,
                       ),
                       defaultButton(
+                        width: double.infinity,
                         function: () {
                           navigateto(context, MyQuotationPending(quotation));
                         },
@@ -75,7 +80,8 @@ class MyQuotationScreen extends StatelessWidget {
                         children: [
                           const Spacer(),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => alertDialog(
+                                context: context, title: 'Booking To Pay'),
                             icon: Icon(
                               Icons.help_outline,
                               color: defaultColorNavyBlue,

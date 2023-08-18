@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class functionsShare {
 
-  //this function to make user go to website for ( FQA - privacy Policy - HOW TO USE )
+  //this function to make user go to website for ( FQA - privacy Policy - HOW TO USE - whatsapp)
   static Future<void> launchInBrowser({
     int? launchTo,
     String? urlPath,
@@ -13,6 +13,8 @@ class functionsShare {
     final Uri termsConditions =
         Uri.parse('https://masmix.com/terms-conditions');
     final Uri FAQ = Uri.parse('https://masmix.com/faq');
+    final Uri whatsappUSA = Uri.parse('whatsapp://send?phone=+13025536688');
+    final Uri whatsappKSA = Uri.parse('whatsapp://send?phone=+966553778808');
     final Uri path = Uri.parse('$urlPath');
     Uri url;
     if (launchTo == 1) {
@@ -21,7 +23,11 @@ class functionsShare {
       url = termsConditions;
     } else if (launchTo == 3) {
       url = FAQ;
-    } else {
+    } else if (launchTo == 4) {
+      url = whatsappUSA;
+    } else if (launchTo == 5) {
+      url = whatsappKSA;
+    }else {
       url = path;
     }
     if (!await launchUrl(

@@ -157,9 +157,10 @@ Widget cardStorage({
               ),
               if (isShow)
                 cardStorageDetails(
-                    context: context,
-                    storage: storage,
-                    functionBack: functionBack),
+                  context: context,
+                  storage: storage,
+                  functionBack: functionBack,
+                ),
             ],
           ),
         ),
